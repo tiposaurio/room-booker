@@ -1,0 +1,77 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal"
+    android:id="@+id/listView"
+    android:weightSum="1">
+    <ImageView
+        android:id="@+id/hotelImage"
+        android:layout_width="72dp"
+        android:layout_height="85dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_weight="0.38"
+        app:srcCompat="@drawable/hotel1"
+        android:minWidth="72dp" />
+
+    <RelativeLayout
+        android:layout_width="189dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.54">
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:paddingTop="5dp"
+            android:text="Hotel 1" />
+
+        <TextView
+            android:text="8.5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/hotelRating"
+            android:textSize="12sp"
+            android:layout_below="@+id/name"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="15dp" />
+
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/hotelStars"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:numStars="5"
+            android:rating="4"
+            android:layout_below="@+id/name"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/hotelReviews"
+            android:textSize="10sp"
+            android:layout_below="@+id/hotelRating"
+            android:layout_alignParentStart="true" />
+
+        <Button
+            android:text="Visit page"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="11dp"
+            android:id="@+id/button2"
+            style="@style/Widget.AppCompat.Button.Small"
+            android:elevation="0dp"
+            android:textSize="7sp"
+            android:layout_above="@+id/hotelReviews"
+            android:layout_alignTop="@+id/hotelStars" />
+
+
+    </RelativeLayout>
+</LinearLayout>
