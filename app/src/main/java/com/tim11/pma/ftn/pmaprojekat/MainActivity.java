@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import layout.FilterFragment;
 import layout.HotelListFragment;
 
 public class MainActivity extends AppCompatActivity
@@ -90,6 +91,8 @@ public class MainActivity extends AppCompatActivity
             // Handle the camera action
         } else if (id == R.id.nav_filter) {
 
+            changeFragment(new FilterFragment());
+
         } else if (id == R.id.nav_settings) {
 
         }
@@ -107,5 +110,16 @@ public class MainActivity extends AppCompatActivity
         ft.replace(R.id.fragment,fragment);
         ft.commit();
     }
+
+    void changeFragment(Fragment fragment){
+
+        android.app.FragmentManager fm = getFragmentManager();
+        android.app.FragmentTransaction ft = fm.beginTransaction();
+
+        ft.replace(R.id.fragment,fragment);
+        ft.commit();
+    }
+
+
 
 }

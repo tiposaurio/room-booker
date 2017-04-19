@@ -1,0 +1,107 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="layout.FilterFragment"
+    android:background="@android:drawable/screen_background_light">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="27dp"
+            android:id="@+id/ratingBar"
+            style="@style/Widget.AppCompat.RatingBar"
+            android:rating="3"
+            android:stepSize="1"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <Switch
+            android:text="Air-conditioner   "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/switch1"
+            android:layout_below="@+id/ratingBar"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="25dp"
+            android:layout_alignEnd="@+id/editText" />
+
+        <Switch
+            android:text="Smoking allowed  "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/switch1"
+            android:layout_alignStart="@+id/switch1"
+            android:layout_marginTop="21dp"
+            android:id="@+id/switch3"
+            android:layout_alignEnd="@+id/editText" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberSigned"
+            android:ems="10"
+            android:layout_marginTop="16dp"
+            android:id="@+id/editText"
+            android:layout_below="@+id/switch3"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="15dp" />
+
+        <Switch
+            android:text="WiFi  "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/editText"
+            android:layout_alignStart="@+id/switch3"
+            android:id="@+id/switch4"
+            android:layout_alignEnd="@+id/editText" />
+
+        <Switch
+            android:text="Free parking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/editText"
+            android:layout_alignStart="@+id/switch4"
+            android:id="@+id/switch5"
+            android:layout_alignEnd="@+id/editText" />
+
+        <Switch
+            android:text="Fitness centre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/switch5"
+            android:layout_alignEnd="@+id/switch5"
+            android:layout_marginTop="20dp"
+            android:id="@+id/switch6"
+            android:layout_alignStart="@+id/switch5" />
+
+        <Switch
+            android:text="Spa and wellness"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/switch6"
+            android:layout_alignStart="@+id/switch6"
+            android:layout_marginTop="24dp"
+            android:id="@+id/switch7"
+            android:layout_alignEnd="@+id/switch6" />
+
+        <Button
+            android:text="Search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/switch7"
+            android:layout_alignStart="@+id/ratingBar"
+            android:layout_marginStart="61dp"
+            android:layout_marginTop="38dp"
+            android:id="@+id/button"
+            android:background="@android:drawable/screen_background_light" />
+
+    </RelativeLayout>
+</FrameLayout>
