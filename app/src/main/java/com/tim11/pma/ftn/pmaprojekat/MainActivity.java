@@ -1,5 +1,6 @@
 package com.tim11.pma.ftn.pmaprojekat;
 
+import android.app.Dialog;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -13,12 +14,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
 
 import layout.FilterFragment;
 import layout.HotelListFragment;
+import layout.HotelMapFragment;
+
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener{
+
+    private static Fragment currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +57,12 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        initializeFragment();
+        if(currentFragment==null){
+            initializeFragment();
+        }
+
+
+
 
     }
 
@@ -74,7 +91,10 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_map) {
+
+            changeFragment(new HotelMapFragment());
+
             return true;
         }
 
@@ -88,7 +108,8 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_hotel_list) {
-            // Handle the camera action
+            changeFragment(new HotelListFragment());
+
         } else if (id == R.id.nav_filter) {
 
             changeFragment(new FilterFragment());
@@ -102,11 +123,31 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    public void initMap(){
+//        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.mapFragment);
+//        mapFragment.getMapAsync(this);
+    }
+
+    public boolean googleServicesAvailable(){
+        GoogleApiAvailability api = GoogleApiAvailability.getInstance();
+        int isAvailable = api.isGooglePlayServicesAvailable(this);
+        if(isAvailable == ConnectionResult.SUCCESS){
+            return true;
+        }else if(api.isUserResolvableError(isAvailable)){
+            Dialog dialog = api.getErrorDialog(this,isAvailable,0);
+            dialog.show();
+        }else{
+            Toast.makeText(this,"Can't connect to play services", Toast.LENGTH_LONG).show();
+        }
+        return false;
+    }
+
     void initializeFragment(){
         Fragment fragment;
         fragment = new HotelListFragment();
         android.app.FragmentManager fm = getFragmentManager();
         android.app.FragmentTransaction ft = fm.beginTransaction();
+        currentFragment = fragment;
         ft.replace(R.id.fragment,fragment);
         ft.commit();
     }
@@ -115,7 +156,7 @@ public class MainActivity extends AppCompatActivity
 
         android.app.FragmentManager fm = getFragmentManager();
         android.app.FragmentTransaction ft = fm.beginTransaction();
-
+        currentFragment = fragment;
         ft.replace(R.id.fragment,fragment);
         ft.commit();
     }

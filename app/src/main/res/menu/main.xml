@@ -46,7 +46,7 @@
         android:layout_height="wrap_content"></item>
 
     <item
-
+        android:id="@+id/action_map"
         android:orderInCategory="200"
         android:title="Search"
         android:icon="@drawable/ic_map_black"

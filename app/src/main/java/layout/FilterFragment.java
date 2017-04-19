@@ -21,4 +21,6 @@ public class FilterFragment extends Fragment {
 
         return inflater.inflate(R.layout.fragment_filter, container, false);
     }
+
+
 }
