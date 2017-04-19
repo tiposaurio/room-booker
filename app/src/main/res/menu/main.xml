@@ -1,9 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".MainActivity"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+        android:title="Menu item 1"
+        app:showAsAction="never"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <item
+
+        android:orderInCategory="100"
+        android:title="Menu item 2"
+        app:showAsAction="never"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <item
+
+        android:orderInCategory="100"
+        android:title="Menu item 3"
+        app:showAsAction="never"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <item
+        android:id="@+id/action_search"
+        android:orderInCategory="200"
+        android:title="Search"
+        android:icon="@drawable/ic_loop_back"
+        app:showAsAction="always"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></item>
+
+    <item
+
+        android:orderInCategory="200"
+        android:title="Search"
+        android:icon="@drawable/ic_hotel_black"
+        app:showAsAction="always"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></item>
+
+    <item
+
+        android:orderInCategory="200"
+        android:title="Search"
+        android:icon="@drawable/ic_map_black"
+        app:showAsAction="always"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></item>
+
+    <item
+
+        android:orderInCategory="200"
+        android:title="Search"
+        android:icon="@drawable/ic_format_clear_black"
+        app:showAsAction="always"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></item>
+
+
 </menu>
