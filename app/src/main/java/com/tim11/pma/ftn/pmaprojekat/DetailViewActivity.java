@@ -118,7 +118,8 @@ public class DetailViewActivity extends AppCompatActivity
 
 
         } else if (id == R.id.nav_settings) {
-
+            Intent myIntent = new Intent(this, SettingsViewActivity.class);
+            this.startActivity(myIntent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

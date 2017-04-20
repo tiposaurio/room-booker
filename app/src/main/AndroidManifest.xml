@@ -52,6 +52,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.tim11.pma.ftn.pmaprojekat.MainActivity" />
         </activity>
+        <activity
+            android:name=".SettingsViewActivity"
+            android:label="@string/title_activity_settings_view"
+          >
+
+
+
+            </activity>
     </application>
 
 </manifest>
