@@ -1,5 +1,6 @@
 package com.tim11.pma.ftn.pmaprojekat.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +8,8 @@ import java.util.List;
  * Created by Shuky on 4/19/2017.
  */
 
-public class Hotel {
+public class Hotel implements Serializable{
+
 
     private String name;
     private String address;
