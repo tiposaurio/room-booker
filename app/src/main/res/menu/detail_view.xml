@@ -1,9 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+        android:id="@+id/action_refresh"
+        android:orderInCategory="200"
+        android:title="Search"
+        android:icon="@drawable/ic_loop_back"
+        app:showAsAction="always"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></item>
+
+    <item
+        android:id="@+id/action_clear"
+        android:orderInCategory="200"
+        android:title="Search"
+        android:icon="@drawable/ic_clear_white"
+        app:showAsAction="always"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></item>
+
 </menu>
