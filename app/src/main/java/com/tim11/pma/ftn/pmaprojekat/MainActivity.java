@@ -1,10 +1,13 @@
 package com.tim11.pma.ftn.pmaprojekat;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -121,6 +124,24 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            if(resultCode == Activity.RESULT_OK){
+                DetailViewActivity.ActiveFragment result =  (DetailViewActivity.ActiveFragment) data.getSerializableExtra("result");
+                switch (result){
+                    case HOTEL_LIST: changeFragment(new HotelListFragment()); break;
+                    case FILTER: changeFragment(new FilterFragment()); break;
+                    default: changeFragment(new HotelListFragment());
+                }
+
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+
+            }
+        }
     }
 
     public void initMap(){

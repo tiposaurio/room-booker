@@ -53,7 +53,8 @@ public class HotelListFragment extends Fragment {
                 Hotel hotel = (Hotel)adapter.getItem(i);
                 Intent myIntent = new Intent(getActivity(), DetailViewActivity.class);
                 myIntent.putExtra("hotel", hotel); //Optional parameters
-                getActivity().startActivity(myIntent);
+                //getActivity().startActivity(myIntent);
+                getActivity().startActivityForResult(myIntent,1);
             }
         });
 

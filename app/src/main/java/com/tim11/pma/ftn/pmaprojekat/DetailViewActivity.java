@@ -1,6 +1,8 @@
 package com.tim11.pma.ftn.pmaprojekat;
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -27,6 +29,7 @@ public class DetailViewActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
 
+    public static enum ActiveFragment { HOTEL_LIST, FILTER, SETTINGS}
 
     private Hotel hotel;
 
@@ -104,24 +107,32 @@ public class DetailViewActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_hotel_list) {
-            Log.i("asd","got to hotels");
-            finish();
+            //changeFragment(new HotelListFragment());
+
+            endActivity(Activity.RESULT_OK,ActiveFragment.HOTEL_LIST);
+
         } else if (id == R.id.nav_filter) {
 
-            finish();
-        } else if (id == R.id.nav_slideshow) {
+            //changeFragment(new FilterFragment());
+            endActivity(Activity.RESULT_OK,ActiveFragment.FILTER);
 
-        } else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_settings) {
 
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void endActivity(int resultCode, ActiveFragment resultData) {
+
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("result",resultData);
+        setResult(resultCode,returnIntent);
+        finish();
+
     }
 
 
@@ -148,5 +159,7 @@ public class DetailViewActivity extends AppCompatActivity
         ft.replace(R.id.fragment,fragment);
         ft.commit();
     }
+
+
 
 }
