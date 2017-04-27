@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,19 +20,27 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.OnMapReadyCallback;
+import com.tim11.pma.ftn.pmaprojekat.model.SpringTestModel;
+import com.tim11.pma.ftn.pmaprojekat.service.SpringTestModelService;
+
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.EActivity;
+import org.springframework.web.client.RestClientException;
 
 import layout.FilterFragment;
 import layout.HotelListFragment;
 import layout.HotelMapFragment;
 
-
+@EActivity(R.layout.activity_main)
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
     private static Fragment currentFragment;
+
+    @Bean
+    SpringTestModelService springTestModelService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,10 +71,20 @@ public class MainActivity extends AppCompatActivity
             initializeFragment();
         }
 
-
-
-
     }
+
+
+    @AfterViews
+    @Background
+    void restTest() {
+        try {
+            SpringTestModel s = springTestModelService.get().get(0);
+            System.out.println("RESPONSE: "+s.getValue().getQuote());
+        } catch (RestClientException e) {
+            System.out.println("ERORCINA");
+        }
+    }
+
 
     @Override
     public void onBackPressed() {
