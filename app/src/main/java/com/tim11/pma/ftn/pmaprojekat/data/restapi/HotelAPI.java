@@ -5,6 +5,7 @@ import com.tim11.pma.ftn.pmaprojekat.model.Hotel;
 
 import org.androidannotations.rest.spring.annotations.Body;
 import org.androidannotations.rest.spring.annotations.Get;
+import org.androidannotations.rest.spring.annotations.Path;
 import org.androidannotations.rest.spring.annotations.Post;
 import org.androidannotations.rest.spring.annotations.Rest;
 import org.springframework.http.converter.FormHttpMessageConverter;
@@ -27,6 +28,11 @@ public interface HotelAPI {
     @Post(value = APIConstants.HOTEL_PATH)
     Hotel createHotel(@Body Hotel hotel);
 
+    @Get(APIConstants.HOTEL_PATH+"/{id}")
+    Hotel getHotel(@Path int id);
+
     // ...
+
+
 
 }

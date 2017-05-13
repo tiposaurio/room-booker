@@ -8,6 +8,7 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import com.tim11.pma.ftn.pmaprojekat.model.Hotel;
 import com.tim11.pma.ftn.pmaprojekat.model.Reservation;
+import com.tim11.pma.ftn.pmaprojekat.model.internal.HotelInternalModel;
 
 import java.sql.SQLException;
 
@@ -18,7 +19,7 @@ import java.sql.SQLException;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME = "pma.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2; // TODO - when you change entities - change version
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -27,7 +28,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
         try {
-            TableUtils.createTable(connectionSource, Hotel.class);
+            //CREATE TEBLES
+            TableUtils.createTable(connectionSource, HotelInternalModel.class);
+            //...
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -36,7 +39,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
         try {
-            TableUtils.dropTable(connectionSource, Hotel.class, true);
+            //SAME
+            TableUtils.dropTable(connectionSource, HotelInternalModel.class, true);
+            //...
+
             onCreate(database, connectionSource);
         } catch (SQLException e) {
             e.printStackTrace();

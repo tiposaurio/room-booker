@@ -12,4 +12,5 @@ public interface GenericService<T> {
 
     T create(T entity);
 
+    T getById(int id);
 }

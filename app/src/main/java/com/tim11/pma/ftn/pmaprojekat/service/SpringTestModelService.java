@@ -30,4 +30,9 @@ public class SpringTestModelService implements GenericService<SpringTestModel>{
         return null;
     }
 
+    @Override
+    public SpringTestModel getById(int id) {
+        return null;
+    }
+
 }

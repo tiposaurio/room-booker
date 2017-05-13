@@ -14,10 +14,8 @@ import java.util.Arrays;
 
 public class Hotel implements java.io.Serializable {
    /** @pdOid fdc32e8f-e8a2-46e6-ad8c-333dd79e5fe6 */
-   @DatabaseField(generatedId = true)
    private int hotelId;
    /** @pdOid 9a284d7e-ff3e-4103-af37-5f2c97f47745 */
-   @DatabaseField(canBeNull = false)
    private java.lang.String name;
    /** @pdOid 4a57ee5e-ce9e-4a0d-a75b-3093b0d9e5e4 */
    private java.lang.String description;
