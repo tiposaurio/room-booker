@@ -53,10 +53,10 @@ public class HotelDetailsFragment extends Fragment {
         RatingBar rbHotelStars = (RatingBar) view.findViewById(R.id.rbHotelStars);
 
         tvHotelName.setText(hotel.getName());
-        tvHotelAddress.setText(hotel.getAddress());
+        //tvHotelAddress.setText(hotel.getAddress());
         tvHotelWebsite.setText(hotel.getWebsite());
         tvHotelRating.setText(String.valueOf(hotel.getRating()) + " / 10");
-        tvHotelReviews.setText(String.valueOf(hotel.getReviews()));
+        //tvHotelReviews.setText(String.valueOf(hotel.getReviews()));
         rbHotelStars.setRating(hotel.getStars());
 
     }

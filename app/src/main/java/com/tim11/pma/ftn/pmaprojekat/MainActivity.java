@@ -31,9 +31,10 @@ import org.springframework.web.client.RestClientException;
 
 import layout.FilterFragment;
 import layout.HotelListFragment;
+import layout.HotelListFragment_;
 import layout.HotelMapFragment;
 
-@EActivity(R.layout.activity_main)
+@EActivity
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -128,7 +129,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_hotel_list) {
-            changeFragment(new HotelListFragment());
+            changeFragment(HotelListFragment_.builder().build());
 
         } else if (id == R.id.nav_filter) {
 
@@ -152,7 +153,7 @@ public class MainActivity extends AppCompatActivity
             if(resultCode == Activity.RESULT_OK){
                 DetailViewActivity.ActiveFragment result =  (DetailViewActivity.ActiveFragment) data.getSerializableExtra("result");
                 switch (result){
-                    case HOTEL_LIST: changeFragment(new HotelListFragment()); break;
+                    case HOTEL_LIST: changeFragment(HotelListFragment_.builder().build()); break;
                     case FILTER: changeFragment(new FilterFragment()); break;
                     default: changeFragment(new HotelListFragment());
                 }
@@ -185,7 +186,7 @@ public class MainActivity extends AppCompatActivity
 
     void initializeFragment(){
         Fragment fragment;
-        fragment = new HotelListFragment();
+        fragment = HotelListFragment_.builder().build();
         android.app.FragmentManager fm = getFragmentManager();
         android.app.FragmentTransaction ft = fm.beginTransaction();
         currentFragment = fragment;

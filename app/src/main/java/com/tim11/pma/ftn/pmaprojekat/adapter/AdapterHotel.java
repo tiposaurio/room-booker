@@ -59,9 +59,9 @@ public class AdapterHotel extends ArrayAdapter<Hotel> {
         if (item!= null) {
             // My layout has only one TextView
             // do whatever you want with your string and long
-            viewHolder.itemView.setText(String.format("%s %s", item.getName(), item.getAddress()));
+            //viewHolder.itemView.setText(String.format("%s %s", item.getName(), item.getAddress()));
             viewHolder.hotelRatingView.setText(String.format("%1$,.2f /10",item.getRating()));
-            viewHolder.hotelReviewsView.setText(String.format("%d reviews",item.getReviews()));
+            //viewHolder.hotelReviewsView.setText(String.format("%d reviews",item.getReviews()));
             viewHolder.hotelStarsView.setRating(item.getStars());
             viewHolder.hotelImageView.setImageResource(R.drawable.hotel1);
         }
