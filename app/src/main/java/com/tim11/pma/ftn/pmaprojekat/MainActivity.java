@@ -20,7 +20,9 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.tim11.pma.ftn.pmaprojekat.model.Hotel;
 import com.tim11.pma.ftn.pmaprojekat.model.SpringTestModel;
+import com.tim11.pma.ftn.pmaprojekat.service.HotelService;
 import com.tim11.pma.ftn.pmaprojekat.service.SpringTestModelService;
 
 import org.androidannotations.annotations.AfterViews;
@@ -28,6 +30,8 @@ import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.springframework.web.client.RestClientException;
+
+import java.util.ArrayList;
 
 import layout.FilterFragment;
 import layout.HotelListFragment;
@@ -42,6 +46,13 @@ public class MainActivity extends AppCompatActivity
 
     @Bean
     SpringTestModelService springTestModelService;
+
+
+    @Bean
+    HotelService hotelService;
+
+    private ArrayList<Hotel> hotelList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +92,15 @@ public class MainActivity extends AppCompatActivity
         try {
             SpringTestModel s = springTestModelService.get().get(0);
             System.out.println("RESPONSE: "+s.getValue().getQuote());
+
+// //WORKS!
+//
+//            hotelList = new ArrayList<>(hotelService.get());
+//            System.out.println("RESPONSE HOTEL: " + hotelList.get(0).getName());
+//
+//            hotelService.saveFavouriteHotel(hotelList.get(0));
+//            System.out.println("FAVOURITE HOTELS SIZE: " + hotelService.getFavouriteHotels().size());
+
         } catch (RestClientException e) {
             System.out.println("ERORCINA");
         }

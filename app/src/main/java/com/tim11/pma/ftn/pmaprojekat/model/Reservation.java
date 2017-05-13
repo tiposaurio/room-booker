@@ -1,7 +1,7 @@
 /***********************************************************************
- * Module:  Reservation.java
+ * Module:  HotelDAO.java
  * Author:  Shuky
- * Purpose: Defines the Class Reservation
+ * Purpose: Defines the Class HotelDAO
  ***********************************************************************/
 
 package com.tim11.pma.ftn.pmaprojekat.model;
@@ -209,7 +209,7 @@ public class Reservation implements java.io.Serializable {
    public String toString()
    {
       StringBuffer ret = new StringBuffer();
-      ret.append( "com.tim11.pma.ftn.pmaprojekat.model.Reservation: " );
+      ret.append( "com.tim11.pma.ftn.pmaprojekat.model.HotelDAO: " );
       ret.append( "reservationId='" + reservationId + "'");
       ret.append( "startDate='" + startDate + "'");
       ret.append( "endDate='" + endDate + "'");

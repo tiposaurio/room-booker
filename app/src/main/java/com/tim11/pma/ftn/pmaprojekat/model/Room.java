@@ -16,7 +16,7 @@ public class Room implements java.io.Serializable {
    
    /** @pdRoleInfo migr=no name=Amenity assc=relationship4 coll=java.util.Collection impl=java.util.HashSet mult=0..* */
    public java.util.Collection<Amenity> RoomAmenity;
-   /** @pdRoleInfo migr=no name=Reservation assc=relationship6 coll=java.util.Collection impl=java.util.HashSet mult=0..* type=Composition */
+   /** @pdRoleInfo migr=no name=HotelDAO assc=relationship6 coll=java.util.Collection impl=java.util.HashSet mult=0..* type=Composition */
    public java.util.Collection<Reservation> reservation;
    /** @pdRoleInfo migr=no name=Hotel assc=relationship2 mult=1..1 side=A */
    public Hotel hotel;
