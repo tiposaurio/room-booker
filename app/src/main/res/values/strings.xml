@@ -88,4 +88,11 @@
     <string name="pref_title_theme">Theme Light / Dark</string>
     <string name="pref_theme_switch_text_off">Light</string>
     <string name="pref_theme_switch_text_on">Dark</string>
+
+
+    <!--FACEBOOK-->
+    <string name="facebook_app_id">770718383105657</string>
+    <string name="fb_login_protocol_scheme">fb1746409612291415</string>
+
+
 </resources>
