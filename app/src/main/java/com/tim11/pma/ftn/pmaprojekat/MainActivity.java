@@ -18,6 +18,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.tim11.pma.ftn.pmaprojekat.model.Hotel;
@@ -39,8 +41,7 @@ import layout.HotelListFragment_;
 import layout.HotelMapFragment;
 
 @EActivity
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private Fragment currentFragment;
 
@@ -50,13 +51,14 @@ public class MainActivity extends AppCompatActivity
     @Bean
     HotelService hotelService;
 
-    private ArrayList<Hotel> hotelList;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        checkIfLoggedIn();
+
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -85,6 +87,7 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+
     @AfterViews
     @Background
     void restTest() {
@@ -92,11 +95,9 @@ public class MainActivity extends AppCompatActivity
             SpringTestModel s = springTestModelService.get().get(0);
             System.out.println("RESPONSE: "+s.getValue().getQuote());
 
-// //WORKS!
-//
+//            ArrayList<Hotel> hotelList;
 //            hotelList = new ArrayList<>(hotelService.get());
 //            System.out.println("RESPONSE HOTEL: " + hotelList.get(0).getName());
-//
 //            hotelService.saveFavouriteHotel(hotelList.get(0));
 //            System.out.println("FAVOURITE HOTELS SIZE: " + hotelService.getFavouriteHotels().size());
 
@@ -104,6 +105,7 @@ public class MainActivity extends AppCompatActivity
             System.out.println("ERORCINA");
         }
     }
+
 
 
     @Override
@@ -159,6 +161,10 @@ public class MainActivity extends AppCompatActivity
             Intent myIntent = new Intent(this, SettingsViewActivity.class);
             this.startActivity(myIntent);
 
+        } else if (id == R.id.logout) {
+
+            logout();
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -168,6 +174,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK){
                 DetailViewActivity.ActiveFragment result =  (DetailViewActivity.ActiveFragment) data.getSerializableExtra("result");
@@ -222,6 +229,25 @@ public class MainActivity extends AppCompatActivity
         ft.commit();
     }
 
+
+    public void checkIfLoggedIn(){
+        if(AccessToken.getCurrentAccessToken()==null){
+            goToWelcome();
+        }
+    }
+
+
+    private void goToWelcome() {
+        Intent intent = new Intent(this, WelcomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
+
+    public void logout(){
+        LoginManager.getInstance().logOut();
+        goToWelcome();
+    }
 
 
 }

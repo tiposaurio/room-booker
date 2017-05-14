@@ -22,7 +22,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.Signature;
 
-public class WelcomeActivity extends FragmentActivity {
+public class WelcomeActivity extends AppCompatActivity {
 
     LoginButton loginButton;
     CallbackManager callbackManager;
@@ -31,6 +31,12 @@ public class WelcomeActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+
+        try {
+            getSupportActionBar().hide();
+        }catch (Exception e){
+
+        }
 
         loginButton = (LoginButton) findViewById(R.id.login_button);
         loginButton.setReadPermissions("email", "public_profile", "user_friends");
