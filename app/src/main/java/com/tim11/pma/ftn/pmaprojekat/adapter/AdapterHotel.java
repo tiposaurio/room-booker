@@ -1,11 +1,9 @@
 package com.tim11.pma.ftn.pmaprojekat.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -42,7 +40,7 @@ public class AdapterHotel extends ArrayAdapter<Hotel> {
                     .inflate(R.layout.hotel_list_item, parent, false);
 
             viewHolder = new ViewHolder();
-            viewHolder.itemView = (TextView) convertView.findViewById(R.id.name);
+            viewHolder.itemView = (TextView) convertView.findViewById(R.id.etName);
             viewHolder.hotelRatingView = (TextView) convertView.findViewById(R.id.hotelRating);
             viewHolder.hotelReviewsView = (TextView) convertView.findViewById(R.id.hotelReviews);
             viewHolder.hotelStarsView = (RatingBar) convertView.findViewById(R.id.hotelStars);
