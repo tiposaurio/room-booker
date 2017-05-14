@@ -9,22 +9,19 @@ import org.androidannotations.annotations.EBean;
 /**
  * Created by ALOHA-PC on 13-May-17.
  */
-@EBean
 public class InternalModelConverter {
 
-    @Bean
-    HotelService hotelService;
 
     //other services
     //...
 
-    public HotelInternalModel convertToInternalModel(Hotel hotel){
+    public static HotelInternalModel convertToInternalModel(Hotel hotel){
         HotelInternalModel internalModel =  new HotelInternalModel();
         internalModel.setActualId(hotel.getHotelId());
         return internalModel;
     }
 
-    public Hotel convertFromInternalModel(HotelInternalModel internalModel){
+    public static Hotel convertFromInternalModel(HotelInternalModel internalModel, HotelService hotelService){
         return hotelService.getById(internalModel.getActualId());
     }
 

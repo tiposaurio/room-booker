@@ -42,11 +42,10 @@ import layout.HotelMapFragment;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
-    private static Fragment currentFragment;
+    private Fragment currentFragment;
 
     @Bean
     SpringTestModelService springTestModelService;
-
 
     @Bean
     HotelService hotelService;

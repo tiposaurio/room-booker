@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.tim11.pma.ftn.pmaprojekat">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -21,7 +22,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/hotelicon"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -29,13 +30,14 @@
         <!-- facebook metadata -->
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
+            tools:replace="android:value"
             android:value="@string/facebook_app_id" />
         <!-- facebook activity -->
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
-        <!-- chrome custom tabs when login -->
+        <!-- facebook: chrome custom tabs when login -->
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
@@ -77,7 +79,9 @@
         </activity>
         <activity
             android:name=".SettingsViewActivity"
-            android:label="@string/title_activity_settings_view"></activity>
+            android:label="@string/title_activity_settings_view">
+
+        </activity>
         <activity android:name=".WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

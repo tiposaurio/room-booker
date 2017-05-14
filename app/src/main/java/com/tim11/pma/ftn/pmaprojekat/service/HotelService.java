@@ -28,9 +28,6 @@ public class HotelService implements GenericService<Hotel> {
     @OrmLiteDao(helper = DatabaseHelper.class)
     HotelDAO hotelDAO;
 
-    @Bean
-    InternalModelConverter internalModelConverter;
-
     @Override
     public List<Hotel> get() {
         return hotelAPI.getHotels();
@@ -47,14 +44,14 @@ public class HotelService implements GenericService<Hotel> {
     }
 
     public void saveFavouriteHotel(Hotel hotel){
-        hotelDAO.create(internalModelConverter.convertToInternalModel(hotel));
+        hotelDAO.create(InternalModelConverter.convertToInternalModel(hotel));
     }
 
     public List<Hotel> getFavouriteHotels(){
         List<HotelInternalModel> internalModels = hotelDAO.getFavoriteHotels();
         List<Hotel> hotels = new ArrayList<>();
         for(HotelInternalModel hotelInternalModel: internalModels){
-            hotels.add(internalModelConverter.convertFromInternalModel(hotelInternalModel));
+            hotels.add(InternalModelConverter.convertFromInternalModel(hotelInternalModel, this));
         }
         return hotels;
     }
