@@ -5,12 +5,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.design.widget.TabItem;
+import android.support.design.widget.TabLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.RatingBar;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.tim11.pma.ftn.pmaprojekat.R;
@@ -25,6 +27,8 @@ public class HotelDetailsFragment extends Fragment {
 
     private Hotel hotel;
 
+    @ViewById
+    TabLayout tlDetails;
 
 //    @Override
 //    public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,12 +45,44 @@ public class HotelDetailsFragment extends Fragment {
 
     @AfterViews
     public void init(){
+
+        tlDetails.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                switch (tab.getText().toString().toLowerCase()){
+
+                    case "info": changeTabFragment(HotelInformationFragment_.builder().build()); break;
+                    case "rooms": changeTabFragment(RoomListFragment_.builder().build()); break;
+
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
         hotel = (Hotel) getArguments().getSerializable("hotel");
         iniializeTabFragment();
 
     }
 
 
+    public void changeTabFragment(Fragment fragment){
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("hotel",hotel);
+        fragment.setArguments(bundle);
+        android.app.FragmentManager fm = getFragmentManager();
+        android.app.FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.tabFragment,fragment);
+        ft.commit();
+    }
 
     public void iniializeTabFragment(){
         Fragment fragment;
