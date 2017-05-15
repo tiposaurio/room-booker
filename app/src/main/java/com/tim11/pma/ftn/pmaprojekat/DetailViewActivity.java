@@ -23,6 +23,7 @@ import com.tim11.pma.ftn.pmaprojekat.model.Hotel;
 
 import layout.FilterFragment;
 import layout.HotelDetailsFragment;
+import layout.HotelDetailsFragment_;
 import layout.HotelListFragment;
 
 public class DetailViewActivity extends AppCompatActivity
@@ -143,7 +144,7 @@ public class DetailViewActivity extends AppCompatActivity
         args.putSerializable("hotel", hotel);
 
 
-        fragment = new HotelDetailsFragment();
+        fragment = HotelDetailsFragment_.builder().build();
         fragment.setArguments(args);
         android.app.FragmentManager fm = getFragmentManager();
         android.app.FragmentTransaction ft = fm.beginTransaction();

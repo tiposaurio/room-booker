@@ -1,165 +1,98 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="layout.HotelDetailsFragment">
+    android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_height="192dp"
+        android:layout_width="match_parent">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
-
-        <LinearLayout
-            android:orientation="vertical"
+        <android.support.design.widget.CollapsingToolbarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            app:toolbarId="@+id/toolbar"
+            app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
+            app:layout_scrollInterpolator="@android:anim/decelerate_interpolator"
+            app:contentScrim="?attr/colorPrimary">
 
-            <TextView
-                android:text="TextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/tvHotelName"
-                android:textAppearance="@style/TextAppearance.AppCompat"
-                android:textSize="18sp"
-                android:textAlignment="center"
-                android:layout_margin="10dp" />
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center">
-
-                <RatingBar
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/rbHotelStars"
-                    android:layout_weight="1"
-                    style="@style/Widget.AppCompat.RatingBar.Small"
-                    android:numStars="5"
-                    android:layout_margin="10dp" />
-            </LinearLayout>
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="132dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/hotel1"
-                    android:id="@+id/imageView3" />
-
-            </RelativeLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
+            <ImageView
+                android:id="@+id/app_bar_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="20dp">
+                android:src="@drawable/hotel1"
+                android:scaleType="centerCrop" />
 
-                <LinearLayout
-                    android:orientation="vertical"
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_width="match_parent"></android.support.v7.widget.Toolbar>
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior"
+       android:fillViewport="true"
+        >
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tlDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TabItem
+                    android:id="@+id/tiRooms"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rooms" />
+
+                <android.support.design.widget.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Info" />
+
+                <android.support.design.widget.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Map" />
+            </android.support.design.widget.TabLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+
+                <FrameLayout
+                    android:id="@+id/tabFragment"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="10dp">
+                    android:visibility="visible">
 
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:text="Address"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/textView18"
-                            android:layout_margin="10dp"
-                            android:layout_weight="1" />
-
-                        <TextView
-                            android:text="TextView"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/tvHotelAddress"
-                            android:layout_margin="10dp"
-                            android:layout_weight="1" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:text="Website"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/textView17"
-                            android:layout_margin="10dp"
-                            android:layout_weight="1" />
-
-                        <TextView
-                            android:text="TextView"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/tvHotelWebsite"
-                            android:layout_margin="10dp"
-                            android:layout_weight="1" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:text="User rating"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/textView16"
-                            android:layout_margin="10dp"
-                            android:layout_weight="1" />
-
-                        <TextView
-                            android:text="TextView"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/tvHotelRating"
-                            android:layout_margin="10dp"
-                            android:layout_weight="1" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:text="Reviews"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/textView14"
-                            android:layout_margin="10dp"
-                            android:layout_weight="1" />
-
-                        <TextView
-                            android:text="TextView"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/tvHotelReviews"
-                            android:layout_margin="10dp"
-                            android:layout_weight="1" />
-                    </LinearLayout>
-
-                </LinearLayout>
+                </FrameLayout>
 
             </LinearLayout>
 
-        </LinearLayout>
-    </ScrollView>
 
-</FrameLayout>
+        </LinearLayout>
+
+
+
+
+
+
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.design.widget.CoordinatorLayout>
