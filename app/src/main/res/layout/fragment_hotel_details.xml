@@ -18,11 +18,11 @@
             app:contentScrim="?attr/colorPrimary">
 
             <ImageView
-                android:id="@+id/app_bar_image"
+                android:id="@+id/ivHotelImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/hotel1"
                 android:scaleType="centerCrop"
+                android:src="@drawable/hotel1"
 
                 />
 

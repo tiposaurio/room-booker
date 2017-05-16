@@ -1,6 +1,7 @@
 package layout;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TableLayout;
@@ -39,6 +41,9 @@ public class HotelDetailsFragment extends Fragment {
 
     @ViewById
     NestedScrollView nscTabLayout;
+
+    @ViewById
+    ImageView ivHotelImage;
 
 
 //    @Override
@@ -86,6 +91,9 @@ public class HotelDetailsFragment extends Fragment {
 
         hotel = (Hotel) getArguments().getSerializable("hotel");
         iniializeTabFragment();
+
+        int imageResource = getResources().getIdentifier("@drawable/" + hotel.getImageFilename(), "drawable", getActivity().getPackageName());
+        ivHotelImage.setImageResource(imageResource);
 
     }
 

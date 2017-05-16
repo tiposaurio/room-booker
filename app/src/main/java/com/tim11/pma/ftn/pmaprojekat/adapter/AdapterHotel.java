@@ -61,7 +61,12 @@ public class AdapterHotel extends ArrayAdapter<Hotel> {
             viewHolder.hotelRatingView.setText(String.format("%1$,.2f /10",item.getRating()));
             //viewHolder.hotelReviewsView.setText(String.format("%d reviews",item.getReviews()));
             viewHolder.hotelStarsView.setRating(item.getStars());
-            viewHolder.hotelImageView.setImageResource(R.drawable.hotel1);
+
+
+
+            int imageResource = getContext().getResources().getIdentifier("@drawable/" + item.getImageFilename(), "drawable", getContext().getPackageName());
+            viewHolder.hotelImageView.setImageResource(imageResource);
+
         }
 
         return convertView;
