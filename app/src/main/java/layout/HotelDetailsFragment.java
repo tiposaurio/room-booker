@@ -8,11 +8,13 @@ import android.app.Fragment;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabItem;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -74,6 +76,9 @@ public class HotelDetailsFragment extends Fragment {
 
                     case "info": changeTabFragment(HotelInformationFragment_.builder().build()); break;
                     case "rooms": changeTabFragment(RoomListFragment_.builder().build()); break;
+                    case "map": changeTabFragment(HotelLocationFragment_.builder().build()); break;
+
+
 
                 }
             }
@@ -96,6 +101,11 @@ public class HotelDetailsFragment extends Fragment {
         ivHotelImage.setImageResource(imageResource);
 
     }
+
+
+
+
+
 
 
     public void changeTabFragment(Fragment fragment){
