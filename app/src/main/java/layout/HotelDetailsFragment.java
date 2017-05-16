@@ -54,29 +54,12 @@ public class HotelDetailsFragment extends Fragment {
 //        return view;
 //    }
 
-    @UiThread
-    public void test(){
 
-
-       // nscTabLayout.setMinimumHeight(llScrollContent.getMeasuredHeight());
-    }
 
     @AfterViews
     public void init(){
 
-        test();
 
-        nscTabLayout.setOnHierarchyChangeListener(new ViewGroup.OnHierarchyChangeListener() {
-            @Override
-            public void onChildViewAdded(View view, View view1) {
-                int x = 0;
-            }
-
-            @Override
-            public void onChildViewRemoved(View view, View view1) {
-                int x = 0;
-            }
-        });
 
 
         tlDetails.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
