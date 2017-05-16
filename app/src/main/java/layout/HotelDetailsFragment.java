@@ -4,13 +4,16 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabItem;
 import android.support.design.widget.TabLayout;
+import android.support.v4.widget.NestedScrollView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TableLayout;
 import android.widget.TextView;
@@ -20,6 +23,7 @@ import com.tim11.pma.ftn.pmaprojekat.model.Hotel;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
 @EFragment(R.layout.fragment_hotel_details)
@@ -29,6 +33,13 @@ public class HotelDetailsFragment extends Fragment {
 
     @ViewById
     TabLayout tlDetails;
+
+    @ViewById
+    LinearLayout llScrollContent;
+
+    @ViewById
+    NestedScrollView nscTabLayout;
+
 
 //    @Override
 //    public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,8 +54,30 @@ public class HotelDetailsFragment extends Fragment {
 //        return view;
 //    }
 
+    @UiThread
+    public void test(){
+
+
+       // nscTabLayout.setMinimumHeight(llScrollContent.getMeasuredHeight());
+    }
+
     @AfterViews
     public void init(){
+
+        test();
+
+        nscTabLayout.setOnHierarchyChangeListener(new ViewGroup.OnHierarchyChangeListener() {
+            @Override
+            public void onChildViewAdded(View view, View view1) {
+                int x = 0;
+            }
+
+            @Override
+            public void onChildViewRemoved(View view, View view1) {
+                int x = 0;
+            }
+        });
+
 
         tlDetails.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

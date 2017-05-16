@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.tim11.pma.ftn.pmaprojekat.R;
 import com.tim11.pma.ftn.pmaprojekat.model.Amenity;
+import com.tim11.pma.ftn.pmaprojekat.model.Bed;
 import com.tim11.pma.ftn.pmaprojekat.model.Hotel;
 import com.tim11.pma.ftn.pmaprojekat.model.Room;
 
@@ -27,7 +28,8 @@ public class AdapterRoom extends ArrayAdapter<Room> {
         private TextView tvName;
         private TextView tvAmenities;
         private TextView tvPrice;
-
+        private TextView tvDescription;
+        private TextView tvBeds;
     }
 
     public AdapterRoom(Context context, int textViewResourceId, ArrayList<Room> items) {
@@ -45,6 +47,8 @@ public class AdapterRoom extends ArrayAdapter<Room> {
             viewHolder.tvName = (TextView) convertView.findViewById(R.id.tvName);
             viewHolder.tvAmenities = (TextView) convertView.findViewById(R.id.tvAmenities);
             viewHolder.tvPrice = (TextView) convertView.findViewById(R.id.tvPrice);
+            viewHolder.tvDescription = (TextView) convertView.findViewById(R.id.tvDescription);
+            viewHolder.tvBeds = (TextView) convertView.findViewById(R.id.tvBeds);
 
 
 
@@ -58,14 +62,27 @@ public class AdapterRoom extends ArrayAdapter<Room> {
         if (item!= null) {
 
             viewHolder.tvName.setText(item.getName());
-            viewHolder.tvPrice.setText(String.valueOf(item.getPrice().getValue()));
+            viewHolder.tvPrice.setText(String.valueOf(item.getPrice().getValue()) + " €");
+            viewHolder.tvDescription.setText(item.getDescription());
             String amenities = "";
-
             for (Amenity a : item.getRoomAmenity()) {
-                amenities += a.getName() + "\n";
+                if(!amenities.isEmpty()){
+                    amenities+="\n";
+                }
+                amenities += a.getName();
+
+            }
+
+            String beds = "";
+            for (Bed b : item.getBeds()) {
+                if(!beds.isEmpty()){
+                    beds+="\n";
+                }
+                beds += "1 x " + b.getName();
             }
 
             viewHolder.tvAmenities.setText(amenities);
+            viewHolder.tvBeds.setText(beds);
 
         }
 

@@ -46,6 +46,8 @@ public class RoomListFragment extends Fragment {
         hotel = (Hotel) getArguments().getSerializable("hotel");
         AdapterRoom adapter = new AdapterRoom(getActivity(),R.layout.room_list_item,new ArrayList<>(hotel.getRoom()));
         roomList.setAdapter(adapter);
+
+        roomList.setNestedScrollingEnabled(true);
     }
 
 //    @AfterViews
