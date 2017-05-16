@@ -2,6 +2,7 @@ package layout;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -13,6 +14,7 @@ import android.support.v4.app.ActivityCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.CameraUpdate;
@@ -24,9 +26,26 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.tim11.pma.ftn.pmaprojekat.DetailViewActivity;
 import com.tim11.pma.ftn.pmaprojekat.R;
+import com.tim11.pma.ftn.pmaprojekat.adapter.AdapterHotel;
+import com.tim11.pma.ftn.pmaprojekat.model.Hotel;
+import com.tim11.pma.ftn.pmaprojekat.service.HotelService;
 
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.UiThread;
+import org.springframework.web.client.RestClientException;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static android.content.Context.LOCATION_SERVICE;
+
+@EFragment
 public class HotelMapFragment extends Fragment implements OnMapReadyCallback, LocationListener {
 
 
@@ -34,7 +53,31 @@ public class HotelMapFragment extends Fragment implements OnMapReadyCallback, Lo
     private LocationManager locationManager;
     private static final long MIN_TIME = 400;
     private static final float MIN_DISTANCE = 1000;
+    private ArrayList<Hotel> hotelList;
 
+    @Bean
+    HotelService hotelService;
+
+
+    @AfterViews
+    @Background
+    void getHotelList() {
+        try {
+            hotelList = new ArrayList<>(hotelService.get());
+            updateVeiw();
+
+
+        } catch (RestClientException e) {
+            System.out.println("ERROR" + e.toString());
+        }
+    }
+
+
+    @UiThread
+    void updateVeiw() {
+
+        addMarkersToMap();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,13 +100,32 @@ public class HotelMapFragment extends Fragment implements OnMapReadyCallback, Lo
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
         map.setMyLocationEnabled(true);
-        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
             return;
         }
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME, MIN_DISTANCE, this); //You can also use LocationManager.GPS_PROVIDER and LocationManager.PASSIVE_PROVIDER
-        onLocationChanged(locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER));
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DISTANCE, this); //You can also use LocationManager.GPS_PROVIDER and LocationManager.PASSIVE_PROVIDER
+        onLocationChanged(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
+
+
+    }
+
+
+    private void addMarkersToMap() {
+
+        for (Hotel hotel : hotelList) {
+            double lat = hotel.getAddress().getLatitude();
+            double lng = hotel.getAddress().getLongitude();
+
+            LatLng latLng = new LatLng(lat,lng);
+
+            MarkerOptions mo = new MarkerOptions().position(latLng).title(hotel.getName());
+            map.addMarker(mo).showInfoWindow();
+        }
+
+
+
     }
 
     @Override

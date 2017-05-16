@@ -39,6 +39,7 @@ import layout.FilterFragment;
 import layout.HotelListFragment;
 import layout.HotelListFragment_;
 import layout.HotelMapFragment;
+import layout.HotelMapFragment_;
 
 @EActivity
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -135,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_map) {
 
-            changeFragment(new HotelMapFragment());
+            changeFragment(HotelMapFragment_.builder().build());
 
             return true;
         }

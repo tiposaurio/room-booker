@@ -1,6 +1,7 @@
 package layout;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -31,6 +32,8 @@ import static android.R.attr.value;
 
 @EFragment(R.layout.fragment_hotel_list)
 public class HotelListFragment extends Fragment {
+
+
 
     private ArrayAdapter<Hotel> adapter;
 
@@ -70,10 +73,16 @@ public class HotelListFragment extends Fragment {
             hotelList = new ArrayList<>(hotelService.get());
             updateVeiw();
 
+
         } catch (RestClientException e) {
             System.out.println("ERROR" + e.toString());
         }
     }
+
+
+
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -113,4 +122,6 @@ public class HotelListFragment extends Fragment {
 
 
     }
+
+
 }
