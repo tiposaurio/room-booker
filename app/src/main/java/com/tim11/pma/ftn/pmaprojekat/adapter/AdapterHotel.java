@@ -5,9 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tim11.pma.ftn.pmaprojekat.R;
 import com.tim11.pma.ftn.pmaprojekat.model.Hotel;
@@ -26,6 +28,7 @@ public class AdapterHotel extends ArrayAdapter<Hotel> {
         private TextView hotelReviewsView;
         private RatingBar hotelStarsView;
         private ImageView hotelImageView;
+
     }
 
     public AdapterHotel(Context context, int textViewResourceId, ArrayList<Hotel> items) {
@@ -47,7 +50,6 @@ public class AdapterHotel extends ArrayAdapter<Hotel> {
             viewHolder.hotelImageView = (ImageView) convertView.findViewById(R.id.hotelImage);
 
 
-
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -62,10 +64,10 @@ public class AdapterHotel extends ArrayAdapter<Hotel> {
             //viewHolder.hotelReviewsView.setText(String.format("%d reviews",item.getReviews()));
             viewHolder.hotelStarsView.setRating(item.getStars());
 
-
-
             int imageResource = getContext().getResources().getIdentifier("@drawable/" + item.getImageFilename(), "drawable", getContext().getPackageName());
             viewHolder.hotelImageView.setImageResource(imageResource);
+
+
 
         }
 

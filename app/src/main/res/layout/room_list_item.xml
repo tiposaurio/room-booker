@@ -151,20 +151,21 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="right"
+                    android:gravity="right|center_vertical"
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/btnMakeReservation"
+                        android:id="@+id/btnBook"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="26dp"
                         android:layout_marginBottom="10dp"
                         android:layout_marginRight="20dp"
                         android:layout_marginTop="10dp"
                         android:background="@color/colorPrimaryDark"
                         android:elevation="11dp"
                         android:padding="2dp"
-                        android:text="Make reservation"
+                        android:text="Book"
+                        android:textAlignment="center"
                         android:textColor="@android:color/background_light"
                         android:textSize="8sp" />
                 </LinearLayout>

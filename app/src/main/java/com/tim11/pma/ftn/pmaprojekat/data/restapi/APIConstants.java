@@ -11,12 +11,15 @@ public interface APIConstants {
 
     /* base url, something like 'localhost:8080' */
     String ROOL_URL = "https://enigmatic-shore-56356.herokuapp.com";
-    //String ROOL_URL = "http://192.168.0.15:8080";
+    //String ROOL_URL = "http://192.168.1.101:8080";
 
     /*ADD ENTITY PATHS HERE */
 
     /* Hotel */
     String HOTEL_PATH = "/hotel";
+
+    String RESERVATION_PATH = "/reservation";
+
 
     // ...
 

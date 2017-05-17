@@ -13,7 +13,7 @@ import java.util.*;
 /** @pdOid 4d3be5e2-2302-41f5-8665-3dfbf0e6870b */
 public class Reservation implements java.io.Serializable {
    /** @pdOid 0b9dbee7-166f-4e41-8361-b2420ed4b778 */
-   private long reservationId;
+   private transient long reservationId;
    /** @pdOid f61107a4-5089-476a-b1c0-66b29b073659 */
    private Date startDate;
    /** @pdOid 3f5530f2-940f-4d1c-a3be-12e12ef02a32 */
