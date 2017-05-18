@@ -6,6 +6,7 @@ import com.tim11.pma.ftn.pmaprojekat.data.restapi.HotelAPI;
 import com.tim11.pma.ftn.pmaprojekat.model.Hotel;
 import com.tim11.pma.ftn.pmaprojekat.model.internal.HotelInternalModel;
 import com.tim11.pma.ftn.pmaprojekat.model.internal.InternalModelConverter;
+import com.tim11.pma.ftn.pmaprojekat.viewmodel.SearchViewModel;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
@@ -54,6 +55,10 @@ public class HotelService implements GenericService<Hotel> {
             hotels.add(InternalModelConverter.convertFromInternalModel(hotelInternalModel, this));
         }
         return hotels;
+    }
+
+    public List<Hotel> search(SearchViewModel searchViewModel) {
+        return hotelAPI.search(searchViewModel);
     }
 
 }

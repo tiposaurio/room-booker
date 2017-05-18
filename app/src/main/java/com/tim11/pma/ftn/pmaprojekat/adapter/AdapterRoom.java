@@ -17,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tim11.pma.ftn.pmaprojekat.R;
-import com.tim11.pma.ftn.pmaprojekat.dialog.BookingDialog;
 import com.tim11.pma.ftn.pmaprojekat.model.Amenity;
 import com.tim11.pma.ftn.pmaprojekat.model.Bed;
 import com.tim11.pma.ftn.pmaprojekat.model.Hotel;

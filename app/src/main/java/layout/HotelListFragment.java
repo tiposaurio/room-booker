@@ -1,5 +1,6 @@
 package layout;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.tim11.pma.ftn.pmaprojekat.DetailViewActivity;
+import com.tim11.pma.ftn.pmaprojekat.MainActivity;
 import com.tim11.pma.ftn.pmaprojekat.R;
 import com.tim11.pma.ftn.pmaprojekat.adapter.AdapterHotel;
 import com.tim11.pma.ftn.pmaprojekat.model.Hotel;
@@ -38,6 +40,9 @@ public class HotelListFragment extends Fragment {
     private ArrayAdapter<Hotel> adapter;
 
     private ArrayList<Hotel> hotelList;
+
+
+
 
     @ViewById
     ListView list;
@@ -69,59 +74,72 @@ public class HotelListFragment extends Fragment {
     @AfterViews
     @Background
     void getHotelList() {
-        try {
-            hotelList = new ArrayList<>(hotelService.get());
-            updateVeiw();
+
+        MainActivity mainActivity =(MainActivity)getActivity();
+        if(mainActivity.getHotelList() == null){
+
+            try {
+                hotelList = new ArrayList<>(hotelService.get());
 
 
-        } catch (RestClientException e) {
-            System.out.println("ERROR" + e.toString());
+
+            } catch (RestClientException e) {
+                System.out.println("ERROR" + e.toString());
+            }
+
+        }else{
+            hotelList = mainActivity.getHotelList();
+
         }
-    }
 
-
-
-
-
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
-
-
-
-        return inflater.inflate(R.layout.fragment_hotel_list, container, false);
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-//        ListView lvHotels = (ListView) getView().findViewById(R.id.list);
-//
-//
-//
-//       // ArrayList<Hotel> list =  Hotel.getHotelsMock();
-//
-//        adapter=new AdapterHotel(getActivity(),R.layout.hotel_list_item,list);
-//
-//        lvHotels.setAdapter(adapter);
-//
-//        lvHotels.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                Hotel hotel = (Hotel)adapter.getItem(i);
-//                Intent myIntent = new Intent(getActivity(), DetailViewActivity.class);
-//                myIntent.putExtra("hotel", hotel); //Optional parameters
-//                //getActivity().startActivity(myIntent);
-//                getActivity().startActivityForResult(myIntent,1);
-//            }
-//        });
+        updateVeiw();
 
 
     }
+
+
+
+
+
+
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+//                             Bundle savedInstanceState) {
+//        // Inflate the layout for this fragment
+//
+//
+//
+//
+//        return inflater.inflate(R.layout.fragment_hotel_list, container, false);
+//    }
+
+//    @Override
+//    public void onActivityCreated(Bundle savedInstanceState) {
+//        super.onActivityCreated(savedInstanceState);
+//
+////        ListView lvHotels = (ListView) getView().findViewById(R.id.list);
+////
+////
+////
+////       // ArrayList<Hotel> list =  Hotel.getHotelsMock();
+////
+////        adapter=new AdapterHotel(getActivity(),R.layout.hotel_list_item,list);
+////
+////        lvHotels.setAdapter(adapter);
+////
+////        lvHotels.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+////            @Override
+////            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+////                Hotel hotel = (Hotel)adapter.getItem(i);
+////                Intent myIntent = new Intent(getActivity(), DetailViewActivity.class);
+////                myIntent.putExtra("hotel", hotel); //Optional parameters
+////                //getActivity().startActivity(myIntent);
+////                getActivity().startActivityForResult(myIntent,1);
+////            }
+////        });
+//
+//
+//    }
 
 
 }

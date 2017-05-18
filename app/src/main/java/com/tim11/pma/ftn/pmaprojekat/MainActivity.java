@@ -34,8 +34,10 @@ import org.androidannotations.annotations.EActivity;
 import org.springframework.web.client.RestClientException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import layout.FilterFragment;
+import layout.FilterFragment_;
 import layout.HotelListFragment;
 import layout.HotelListFragment_;
 import layout.HotelMapFragment;
@@ -52,6 +54,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Bean
     HotelService hotelService;
 
+    private ArrayList<Hotel> hotelList;
+
+    public ArrayList<Hotel> getHotelList() {
+        return hotelList;
+    }
+
+    public void setHotelList(ArrayList<Hotel> hotelList) {
+        this.hotelList = hotelList;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,14 +75,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -155,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (id == R.id.nav_filter) {
 
-            changeFragment(new FilterFragment());
+            changeFragment(FilterFragment_.builder().build());
 
         } else if (id == R.id.nav_settings) {
 
@@ -221,7 +233,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ft.commit();
     }
 
-    void changeFragment(Fragment fragment){
+    public void changeFragment(Fragment fragment){
 
         android.app.FragmentManager fm = getFragmentManager();
         android.app.FragmentTransaction ft = fm.beginTransaction();
