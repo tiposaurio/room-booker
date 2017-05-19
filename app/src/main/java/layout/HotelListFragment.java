@@ -85,6 +85,8 @@ public class HotelListFragment extends Fragment {
 
             } catch (RestClientException e) {
                 System.out.println("ERROR" + e.toString());
+                hotelList = new ArrayList<Hotel>();
+
             }
 
         }else{

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "787062676669",
+    "firebase_url": "https://pmaprojekat.firebaseio.com",
+    "project_id": "pmaprojekat",
+    "storage_bucket": "pmaprojekat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:787062676669:android:0fd82c7473924462",
+        "android_client_info": {
+          "package_name": "com.tim11.pma.ftn.pmaprojekat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "787062676669-93ehrhmptrifus752t4d2bf4772ou60r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAy5lutjRZZ80IdK9G97j08XkvO2lYbUeI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
