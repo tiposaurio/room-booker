@@ -10,8 +10,8 @@ public interface APIConstants {
     String TEST_URL = "https://gturnquist-quoters.cfapps.io/api/random";
 
     /* base url, something like 'localhost:8080' */
-    String ROOL_URL = "https://enigmatic-shore-56356.herokuapp.com/api";
-
+    //String ROOL_URL = "https://enigmatic-shore-56356.herokuapp.com/api";
+    String ROOL_URL = "http://192.168.1.108:8080/api";
 
     /*ADD ENTITY PATHS HERE */
 

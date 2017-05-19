@@ -22,6 +22,7 @@ import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.tim11.pma.ftn.pmaprojekat.model.Hotel;
 import com.tim11.pma.ftn.pmaprojekat.model.SpringTestModel;
 import com.tim11.pma.ftn.pmaprojekat.service.HotelService;
@@ -68,7 +69,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         checkIfLoggedIn();
+
+        FirebaseMessaging.getInstance().subscribeToTopic("main");
 
         setContentView(R.layout.activity_main);
 
