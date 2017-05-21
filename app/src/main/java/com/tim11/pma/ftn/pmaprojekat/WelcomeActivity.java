@@ -15,6 +15,7 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.Profile;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
@@ -38,7 +39,7 @@ public class WelcomeActivity extends AppCompatActivity {
         }catch (Exception e){
 
         }
-
+        generateKey();
         loginButton = (LoginButton) findViewById(R.id.login_button);
         loginButton.setReadPermissions("email", "public_profile", "user_friends");
 
@@ -51,6 +52,7 @@ public class WelcomeActivity extends AppCompatActivity {
                 // App code
                 System.out.println(">>>>>SUCCESS!");
                 goToMain();
+                //Profile.getCurrentProfile().geti
             }
 
             @Override

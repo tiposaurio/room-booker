@@ -17,7 +17,7 @@ public class InternalModelConverter {
 
     public static HotelInternalModel convertToInternalModel(Hotel hotel){
         HotelInternalModel internalModel =  new HotelInternalModel();
-        internalModel.setActualId(hotel.getHotelId());
+        internalModel.setActualId(hotel.getId());
         return internalModel;
     }
 

@@ -84,14 +84,14 @@ public class AdapterRoom extends ArrayAdapter<Room> {
             viewHolder = (AdapterRoom.ViewHolder) convertView.getTag();
         }
 
-        final Room item = getItem(position);
-        if (item!= null) {
+        final Room room = getItem(position);
+        if (room!= null) {
 
-            viewHolder.tvName.setText(item.getName());
-            viewHolder.tvPrice.setText(String.valueOf(item.getPrice().getValue()) + " €");
-            viewHolder.tvDescription.setText(item.getDescription());
+            viewHolder.tvName.setText(room.getName());
+            viewHolder.tvPrice.setText(String.valueOf(room.getPrice().getValue()) + " €");
+            viewHolder.tvDescription.setText(room.getDescription());
             String amenities = "";
-            for (Amenity a : item.getRoomAmenity()) {
+            for (Amenity a : room.getAmenities()) {
                 if(!amenities.isEmpty()){
                     amenities+="\n";
                 }
@@ -100,7 +100,7 @@ public class AdapterRoom extends ArrayAdapter<Room> {
             }
 
             String beds = "";
-            for (RoomBed b : item.getBeds()) {
+            for (RoomBed b : room.getRoomBeds()) {
                 if(!beds.isEmpty()){
                     beds+="\n";
                 }
@@ -110,7 +110,7 @@ public class AdapterRoom extends ArrayAdapter<Room> {
             viewHolder.tvAmenities.setText(amenities);
             viewHolder.tvBeds.setText(beds);
 
-            viewHolder.btnBook.setTag("btnBook_" + item.getRoomId());
+            viewHolder.btnBook.setTag("btnBook_" + room.getId());
             viewHolder.btnBook.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -119,8 +119,8 @@ public class AdapterRoom extends ArrayAdapter<Room> {
 
                     setUserInfo(reservation);
 
-                    reservation.setRoom(item);
-                    showDialog(context,reservation,item.getPrice());
+                    reservation.setRoom(room);
+                    showDialog(context, reservation, room.getPrice());
 
                 }
             });
