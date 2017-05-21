@@ -187,7 +187,7 @@ public class AdapterRoom extends ArrayAdapter<Room> {
 
         DatePicker dpDate = (DatePicker) view.findViewById(datePickerId);
         int startDay = dpDate.getDayOfMonth();
-        int startMonth = dpDate.getMonth()+1;
+        int startMonth = dpDate.getMonth();
         int startYear = dpDate.getYear();
 
         Calendar calDate = Calendar.getInstance();

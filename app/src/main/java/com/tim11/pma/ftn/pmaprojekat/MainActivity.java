@@ -28,6 +28,7 @@ import com.tim11.pma.ftn.pmaprojekat.model.SpringTestModel;
 import com.tim11.pma.ftn.pmaprojekat.service.HotelService;
 import com.tim11.pma.ftn.pmaprojekat.service.SpringTestModelService;
 
+
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
@@ -43,6 +44,7 @@ import layout.HotelListFragment;
 import layout.HotelListFragment_;
 import layout.HotelMapFragment;
 import layout.HotelMapFragment_;
+import layout.ReservationListFragment_;
 
 @EActivity
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -177,6 +179,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             Intent myIntent = new Intent(this, SettingsViewActivity.class);
             this.startActivity(myIntent);
+        } else if (id == R.id.nav_reservations) {
+
+            changeFragment(ReservationListFragment_.builder().build());
+
+
 
         } else if (id == R.id.logout) {
 
