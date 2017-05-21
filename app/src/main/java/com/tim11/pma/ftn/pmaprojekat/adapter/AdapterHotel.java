@@ -5,11 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tim11.pma.ftn.pmaprojekat.R;
 import com.tim11.pma.ftn.pmaprojekat.model.Hotel;
@@ -23,7 +21,8 @@ import java.util.ArrayList;
 public class AdapterHotel extends ArrayAdapter<Hotel> {
 
     private static class ViewHolder {
-        private TextView itemView;
+        private TextView hotelNameView;
+        private TextView hotelPlaceView;
         private TextView hotelRatingView;
         private TextView hotelReviewsView;
         private RatingBar hotelStarsView;
@@ -43,7 +42,8 @@ public class AdapterHotel extends ArrayAdapter<Hotel> {
                     .inflate(R.layout.hotel_list_item, parent, false);
 
             viewHolder = new ViewHolder();
-            viewHolder.itemView = (TextView) convertView.findViewById(R.id.etName);
+            viewHolder.hotelNameView = (TextView) convertView.findViewById(R.id.hotelName);
+            viewHolder.hotelPlaceView = (TextView) convertView.findViewById(R.id.hotelPlace);
             viewHolder.hotelRatingView = (TextView) convertView.findViewById(R.id.hotelRating);
             viewHolder.hotelReviewsView = (TextView) convertView.findViewById(R.id.hotelReviews);
             viewHolder.hotelStarsView = (RatingBar) convertView.findViewById(R.id.hotelStars);
@@ -55,25 +55,26 @@ public class AdapterHotel extends ArrayAdapter<Hotel> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        Hotel item = getItem(position);
-        if (item!= null) {
-            // My layout has only one TextView
-            // do whatever you want with your string and long
-            //viewHolder.itemView.setText(String.format("%s %s", item.getName(), item.getAddress()));
-            viewHolder.hotelRatingView.setText(String.format("%1$,.2f /10",item.getRating()));
-            //viewHolder.hotelReviewsView.setText(String.format("%d reviews",item.getReviews()));
-            viewHolder.hotelStarsView.setRating(item.getStars());
+        Hotel hotel = getItem(position);
+        if (hotel!= null) {
+            viewHolder.hotelNameView.setText(hotel.getName());
 
-            int imageResource = getContext().getResources().getIdentifier("@drawable/" + item.getImageFilename(), "drawable", getContext().getPackageName());
+            viewHolder.hotelPlaceView.setText(hotel.getAddress().getCity()
+                    + ", " + hotel.getAddress().getCountry());
+
+            viewHolder.hotelStarsView.setRating(hotel.getStars());
+
+            viewHolder.hotelRatingView.setText(String.format("%1$,.2f /10",hotel.getRating()));
+
+            viewHolder.hotelReviewsView
+                    .setText(hotel.getReviews()==0?"No reviews": hotel.getReviews() + " reviews");
+
+            int imageResource = getContext().getResources()
+                    .getIdentifier("@drawable/" + hotel.getImageFilename()
+                            , "drawable", getContext().getPackageName());
             viewHolder.hotelImageView.setImageResource(imageResource);
-
-
-
         }
 
         return convertView;
     }
-
-
-
 }

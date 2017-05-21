@@ -13,7 +13,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/textStartDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Start date"
@@ -35,7 +35,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/textEndDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="End date"
@@ -47,7 +47,8 @@
             android:layout_height="wrap_content"
             android:calendarViewShown="false"
             android:datePickerMode="spinner"
-            android:spinnersShown="true" />
+            android:spinnersShown="true"
+            />
 
     </LinearLayout>
 
