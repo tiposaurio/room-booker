@@ -10,24 +10,19 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tim11.pma.ftn.pmaprojekat.R;
 import com.tim11.pma.ftn.pmaprojekat.model.Amenity;
-import com.tim11.pma.ftn.pmaprojekat.model.Bed;
-import com.tim11.pma.ftn.pmaprojekat.model.Hotel;
 import com.tim11.pma.ftn.pmaprojekat.model.Price;
 import com.tim11.pma.ftn.pmaprojekat.model.Reservation;
 import com.tim11.pma.ftn.pmaprojekat.model.Room;
+import com.tim11.pma.ftn.pmaprojekat.model.RoomBed;
 import com.tim11.pma.ftn.pmaprojekat.service.ReservationService;
 import com.tim11.pma.ftn.pmaprojekat.service.ReservationService_;
 
 import org.androidannotations.annotations.Background;
-import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 import org.springframework.web.client.RestClientException;
 
@@ -98,11 +93,11 @@ public class AdapterRoom extends ArrayAdapter<Room> {
             }
 
             String beds = "";
-            for (Bed b : item.getBeds()) {
+            for (RoomBed b : item.getBeds()) {
                 if(!beds.isEmpty()){
                     beds+="\n";
                 }
-                beds += "1 x " + b.getName();
+                beds += b.getCount() + " x " + b.getBed().getName();
             }
 
             viewHolder.tvAmenities.setText(amenities);
@@ -136,6 +131,16 @@ public class AdapterRoom extends ArrayAdapter<Room> {
 
         LayoutInflater li = LayoutInflater.from(context);
         final View dialogView = li.inflate(R.layout.dialog_booking, null);
+        DatePicker dpStartDate = (DatePicker) dialogView.findViewById(R.id.dpStartDate);
+        DatePicker dpEndDate = (DatePicker) dialogView.findViewById(R.id.dpEndDate);
+        Calendar initTime = Calendar.getInstance();
+        initTime.add(Calendar.DAY_OF_MONTH, 1);
+        dpStartDate.init(initTime.get(Calendar.YEAR), initTime.get(Calendar.MONTH),
+                initTime.get(Calendar.DAY_OF_MONTH), null);
+        initTime.add(Calendar.DAY_OF_MONTH, 7);
+        dpEndDate.init(initTime.get(Calendar.YEAR), initTime.get(Calendar.MONTH),
+                initTime.get(Calendar.DAY_OF_MONTH), null);
+
         new AlertDialog.Builder(context)
                 .setView(dialogView)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -159,7 +164,6 @@ public class AdapterRoom extends ArrayAdapter<Room> {
                         dialog.dismiss();
                     }
                 })
-
                 .show();
     }
 

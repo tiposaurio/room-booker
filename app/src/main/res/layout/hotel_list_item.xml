@@ -27,39 +27,49 @@
         >
 
         <TextView
-            android:id="@+id/etName"
+            android:id="@+id/hotelName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="10sp"
+            android:textSize="12sp"
             android:paddingTop="5dp"
-            android:text="Hotel 1" />
+            android:text="No name" />
 
         <TextView
-            android:text="8.5"
+            android:id="@+id/hotelPlace"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/hotelRating"
-            android:textSize="12sp"
-            android:layout_below="@+id/etName"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="15dp" />
+            android:textSize="8sp"
+            android:text="Unknown place"
+            android:layout_below="@+id/hotelName"
+            android:layout_alignParentStart="true" />
 
         <RatingBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/hotelStars"
             style="@style/Widget.AppCompat.RatingBar.Small"
+            android:paddingTop="2dp"
             android:numStars="5"
             android:rating="4"
-            android:layout_below="@+id/etName"
+            android:layout_below="@+id/hotelPlace"
             android:layout_alignParentStart="true" />
+
+        <TextView
+            android:text="8.5/10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/hotelRating"
+            android:textSize="10sp"
+            android:layout_below="@+id/hotelStars"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="15dp" />
 
         <TextView
             android:text="TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/hotelReviews"
-            android:textSize="10sp"
+            android:textSize="8sp"
             android:layout_below="@+id/hotelRating"
             android:layout_alignParentStart="true" />
 

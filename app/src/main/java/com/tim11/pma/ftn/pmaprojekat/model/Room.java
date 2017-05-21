@@ -6,7 +6,8 @@
 
 package com.tim11.pma.ftn.pmaprojekat.model;
 
- 
+import java.util.Iterator;
+import java.util.Set;
 
 /** @pdOid 6596f8df-cea7-426e-8367-f83dd990cd84 */
 public class Room implements java.io.Serializable {
@@ -20,18 +21,18 @@ public class Room implements java.io.Serializable {
    private int available;
    /** @pdOid 44b1a927-1409-4937-9764-7b80479b9b85 */
    private String description;
-   
+
    /** @pdRoleInfo migr=no name=Bed assc=roomBed coll=java.util.Set impl=java.util.HashSet mult=0..* */
-   private java.util.Set<Bed> beds;
+   private Set<RoomBed> beds;
    /** @pdRoleInfo migr=no name=Amenity assc=roomAmenity coll=java.util.Set impl=java.util.HashSet mult=0..* */
-   private java.util.Set<Amenity> roomAmenity;
+   private Set<Amenity> roomAmenity;
    /** @pdRoleInfo migr=no name=Reservation assc=relationship6 coll=java.util.Set impl=java.util.HashSet mult=0..* */
-   private java.util.Set<Reservation> reservation;
+   private Set<Reservation> reservation;
    /** @pdRoleInfo migr=no name=Hotel assc=relationship2 mult=1..1 side=A */
    private Hotel hotel;
    /** @pdRoleInfo migr=no name=Price assc=relationship3 mult=1..1 side=A */
    private Price price;
-   
+
    /**
     * Empty constructor which is required by Hibernate
     *
@@ -39,51 +40,51 @@ public class Room implements java.io.Serializable {
    public Room() {
       // TODO Auto-generated constructor stub
    }
-   
+
    /**
     * @pdGenerated default getter
     */
-   public java.util.Set<Bed> getBeds() {
+   public Set<RoomBed> getBeds() {
       if (beds == null)
-         beds = new java.util.HashSet<Bed>();
+         beds = new java.util.HashSet<RoomBed>();
       return beds;
    }
-   
+
    /**
     * @pdGenerated default iterator getter
     */
    public java.util.Iterator getIteratorBeds() {
       if (beds == null)
-         beds = new java.util.HashSet<Bed>();
+         beds = new java.util.HashSet<RoomBed>();
       return beds.iterator();
    }
-   
-   /** 
+
+   /**
     * @pdGenerated default setter
     * @param newBeds
     */
-   public void setBeds(java.util.Set<Bed> newBeds) {
+   public void setBeds(Set<RoomBed> newBeds) {
       //removeAllBeds();
-      this.beds = newBeds;   
+      this.beds = newBeds;
    }
-   
-   /** 
+
+   /**
     * @pdGenerated default add
     * @param newBed
     */
-   public void addBeds(Bed newBed) {
-      if (newBed == null)
-         return;
-      if (this.beds == null)
-         this.beds = new java.util.HashSet<Bed>();
-      if (!this.beds.contains(newBed))
-      {
-         this.beds.add(newBed);
-         newBed.addRooms(this);
-      }
-   }
-   
-   /** 
+//   public void addBeds(RoomBed newBed) {
+//      if (newBed == null)
+//         return;
+//      if (this.beds == null)
+//         this.beds = new java.util.HashSet<RoomBed>();
+//      if (!this.beds.contains(newBed))
+//      {
+//         this.beds.add(newBed);
+//         newBed.addRooms(this);
+//      }
+//   }
+
+   /**
     * @pdGenerated default remove
     * @param oldBed
     */
@@ -97,7 +98,7 @@ public class Room implements java.io.Serializable {
             oldBed.removeRooms(this);
          }
    }
-   
+
    /**
     * @pdGenerated default removeAll
     */
@@ -116,12 +117,12 @@ public class Room implements java.io.Serializable {
    /**
     * @pdGenerated default getter
     */
-   public java.util.Set<Amenity> getRoomAmenity() {
+   public Set<Amenity> getRoomAmenity() {
       if (roomAmenity == null)
          roomAmenity = new java.util.HashSet<Amenity>();
       return roomAmenity;
    }
-   
+
    /**
     * @pdGenerated default iterator getter
     */
@@ -135,12 +136,12 @@ public class Room implements java.io.Serializable {
     * @pdGenerated default setter
     * @param newRoomAmenity
     */
-   public void setRoomAmenity(java.util.Set<Amenity> newRoomAmenity) {
+   public void setRoomAmenity(Set<Amenity> newRoomAmenity) {
       //removeAllRoomAmenity();
-      this.roomAmenity = newRoomAmenity;   
+      this.roomAmenity = newRoomAmenity;
    }
-   
-   /** 
+
+   /**
     * @pdGenerated default add
     * @param newAmenity
     */
@@ -155,8 +156,8 @@ public class Room implements java.io.Serializable {
          newAmenity.addRoomAmenity(this);
       }
    }
-   
-   /** 
+
+   /**
     * @pdGenerated default remove
     * @param oldAmenity
     */
@@ -170,7 +171,7 @@ public class Room implements java.io.Serializable {
             oldAmenity.removeRoomAmenity(this);
          }
    }
-   
+
    /**
     * @pdGenerated default removeAll
     */
@@ -189,30 +190,28 @@ public class Room implements java.io.Serializable {
    /**
     * @pdGenerated default getter
     */
-    
-   public java.util.Set<Reservation> getReservation() {
+   public Set<Reservation> getReservation() {
       if (reservation == null)
          reservation = new java.util.HashSet<Reservation>();
       return reservation;
    }
-   
+
    /**
     * @pdGenerated default iterator getter
     */
-    
-   public java.util.Iterator getIteratorReservation() {
+   public Iterator getIteratorReservation() {
       if (reservation == null)
          reservation = new java.util.HashSet<Reservation>();
       return reservation.iterator();
    }
-   
-   /** 
+
+   /**
     * @pdGenerated default setter
     * @param newReservation
     */
-   public void setReservation(java.util.Set<Reservation> newReservation) {
+   public void setReservation(Set<Reservation> newReservation) {
       //removeAllReservation();
-      this.reservation = newReservation;   
+      this.reservation = newReservation;
    }
    
    /** 
@@ -230,8 +229,8 @@ public class Room implements java.io.Serializable {
          newReservation.setRoom(this);
       }
    }
-   
-   /** 
+
+   /**
     * @pdGenerated default remove
     * @param oldReservation
     */
@@ -245,7 +244,7 @@ public class Room implements java.io.Serializable {
             oldReservation.setRoom((Room)null);
          }
    }
-   
+
    /**
     * @pdGenerated default removeAll
     */
@@ -264,11 +263,10 @@ public class Room implements java.io.Serializable {
    /**
     * @pdGenerated default parent getter
     */
-    
    public Hotel getHotel() {
       return hotel;
    }
-   
+
    /**
     * @pdGenerated default parent setter
     * @param newHotel
@@ -416,9 +414,7 @@ public class Room implements java.io.Serializable {
    {
       this.description = newDescription;
    }
-   
 
-   
    /* (non-Javadoc)
     * @see java.lang.Object#equals(java.lang.Object)
     */
@@ -428,7 +424,7 @@ public class Room implements java.io.Serializable {
          return false;
       
       if (other == this)
-         return true;   
+         return true;
    
       if (!(other instanceof Room))
          return false;
@@ -459,11 +455,11 @@ public class Room implements java.io.Serializable {
    public int hashCode() {
       int hashCode = 0;
       hashCode = 29 * hashCode + (new Long(roomId)).hashCode();
-      if (this.name != null) 
+      if (this.name != null)
          hashCode = 29 * hashCode + name.hashCode();
       hashCode = 29 * hashCode + (new Integer(count)).hashCode();
       hashCode = 29 * hashCode + (new Integer(available)).hashCode();
-      if (this.description != null) 
+      if (this.description != null)
          hashCode = 29 * hashCode + description.hashCode();
       return hashCode;
    }

@@ -6,7 +6,9 @@
 
 package com.tim11.pma.ftn.pmaprojekat.model;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
  
 
@@ -20,8 +22,8 @@ public class Bed implements java.io.Serializable {
    private String icon;
    
    /** @pdRoleInfo migr=no name=Room assc=roomBed coll=java.util.Set impl=java.util.HashSet mult=0..* side=A */
-   public Set<Room> rooms;
-   
+   public Set<RoomBed> rooms;
+
    /**
     * Empty constructor which is required by Hibernate
     *
@@ -29,53 +31,52 @@ public class Bed implements java.io.Serializable {
    public Bed() {
       // TODO Auto-generated constructor stub
    }
-   
+
    /**
     * @pdGenerated default getter
     */
-    
-   public Set<Room> getRooms() {
+   public Set<RoomBed> getRooms() {
       if (rooms == null)
-         rooms = new HashSet<Room>();
+         rooms = new HashSet<RoomBed>();
       return rooms;
    }
-   
+
    /**
     * @pdGenerated default iterator getter
     */
     
    public Iterator getIteratorRooms() {
       if (rooms == null)
-         rooms = new HashSet<Room>();
+         rooms = new HashSet<RoomBed>();
       return rooms.iterator();
    }
-   
-   /** 
+
+   /**
     * @pdGenerated default setter
     * @param newRooms
     */
-   public void setRooms(Set<Room> newRooms) {
+   public void setRooms(Set<RoomBed> newRooms) {
       //removeAllRooms();
-      this.rooms = newRooms;   
+      this.rooms = newRooms;
    }
    
    /** 
     * @pdGenerated default add
     * @param newRoom
     */
-   public void addRooms(Room newRoom) {
-      if (newRoom == null)
-         return;
-      if (this.rooms == null)
-         this.rooms = new HashSet<Room>();
-      if (!this.rooms.contains(newRoom))
-      {
-         this.rooms.add(newRoom);
-         newRoom.addBeds(this);
-      }
-   }
-   
-   /** 
+//   public void addRooms(RoomBed newRoom) {
+//      if (newRoom == null)
+//         return;
+//      if (this.rooms == null)
+//         this.rooms = new java.util.HashSet<RoomBed>();
+//      if (!this.rooms.contains(newRoom))
+//      {
+//         this.rooms.add(newRoom);
+//         newRoom.addBeds(this);
+//      }
+//   }
+
+   /**
     * @pdGenerated default remove
     * @param oldRoom
     */
@@ -89,7 +90,7 @@ public class Bed implements java.io.Serializable {
             oldRoom.removeBeds(this);
          }
    }
-   
+
    /**
     * @pdGenerated default removeAll
     */
@@ -139,13 +140,13 @@ public class Bed implements java.io.Serializable {
    /**
     * Set value of name
     *
-    * @param newName 
+    * @param newName
     */
    public void setName(String newName)
    {
       this.name = newName;
    }
-   
+
    /**
     * Get value of icon
     *
@@ -165,9 +166,7 @@ public class Bed implements java.io.Serializable {
    {
       this.icon = newIcon;
    }
-   
 
-   
    /* (non-Javadoc)
     * @see java.lang.Object#equals(java.lang.Object)
     */
@@ -175,40 +174,40 @@ public class Bed implements java.io.Serializable {
    
       if (other == null)
          return false;
-      
+
       if (other == this)
-         return true;   
-   
+         return true;
+
       if (!(other instanceof Bed))
          return false;
-   
+
       Bed cast = (Bed) other;
-   
+
       if (this.bedId != cast.getBedId())
          return false;
-   
+
       if (this.name == null ? cast.getName() != this.name : !this.name.equals( cast.getName()))
          return false;
-   
+
       if (this.icon == null ? cast.getIcon() != this.icon : !this.icon.equals( cast.getIcon()))
          return false;
-   
+
       return true;
    }
-   
+
    /* (non-Javadoc)
     * @see java.lang.Object#hashCode()
     */
    public int hashCode() {
       int hashCode = 0;
       hashCode = 29 * hashCode + (new Long(bedId)).hashCode();
-      if (this.name != null) 
+      if (this.name != null)
          hashCode = 29 * hashCode + name.hashCode();
-      if (this.icon != null) 
+      if (this.icon != null)
          hashCode = 29 * hashCode + icon.hashCode();
       return hashCode;
    }
-   
+
    /* (non-Javadoc)
     * @see java.lang.Object#toString()
     */
