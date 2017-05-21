@@ -3,6 +3,7 @@ package com.tim11.pma.ftn.pmaprojekat.adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,11 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphRequestAsyncTask;
+import com.facebook.GraphResponse;
+import com.facebook.Profile;
 import com.tim11.pma.ftn.pmaprojekat.R;
 import com.tim11.pma.ftn.pmaprojekat.model.Amenity;
 import com.tim11.pma.ftn.pmaprojekat.model.Price;
@@ -24,6 +30,7 @@ import com.tim11.pma.ftn.pmaprojekat.service.ReservationService_;
 
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EBean;
+import org.json.JSONObject;
 import org.springframework.web.client.RestClientException;
 
 import java.util.ArrayList;
@@ -110,11 +117,7 @@ public class AdapterRoom extends ArrayAdapter<Room> {
                     Context context = getContext();
                     Reservation reservation = new Reservation();
 
-                    // User information
-                    reservation.setEmail("email");
-                    reservation.setFirstname("firstname");
-                    reservation.setLastname("lastname");
-                    // User information
+                    setUserInfo(reservation);
 
                     reservation.setRoom(item);
                     showDialog(context,reservation,item.getPrice());
@@ -191,6 +194,29 @@ public class AdapterRoom extends ArrayAdapter<Room> {
         calDate.set(startYear,startMonth,startDay);
 
         return calDate.getTime();
+
+    }
+
+
+    public void setUserInfo(final Reservation reservation){
+
+        Profile profile = Profile.getCurrentProfile();
+        reservation.setFirstname(profile.getFirstName());
+        reservation.setLastname(profile.getLastName());
+
+        GraphRequest request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+            @Override
+            public void onCompleted(JSONObject user, GraphResponse graphResponse) {
+                reservation.setEmail(user.optString("email"));
+
+            }
+        });
+
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "id,email");
+        request.setParameters(parameters);
+        request.executeAsync();
+
 
     }
 
