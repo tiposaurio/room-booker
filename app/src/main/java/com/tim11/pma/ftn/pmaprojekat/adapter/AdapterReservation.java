@@ -60,14 +60,14 @@ public class AdapterReservation extends ArrayAdapter<Reservation> {
             viewHolder = (AdapterReservation.ViewHolder) convertView.getTag();
         }
 
-        final Reservation item = getItem(position);
-        if (item!= null) {
+        final Reservation reservation = getItem(position);
+        if (reservation!= null) {
 
-            viewHolder.tvName.setText(item.getRoom().getName());
-            viewHolder.tvPrice.setText(String.valueOf(item.getPrice()) + " €");
-            viewHolder.tvDescription.setText(item.getRoom().getDescription());
+            viewHolder.tvName.setText(reservation.getRoom().getName());
+            viewHolder.tvPrice.setText(String.valueOf(reservation.getPrice()) + " €");
+            viewHolder.tvDescription.setText(reservation.getRoom().getDescription());
             String amenities = "";
-            for (Amenity a : item.getRoom().getRoomAmenity()) {
+            for (Amenity a : reservation.getRoom().getAmenities()) {
                 if(!amenities.isEmpty()){
                     amenities+="\n";
                 }
@@ -76,7 +76,7 @@ public class AdapterReservation extends ArrayAdapter<Reservation> {
             }
 
             String beds = "";
-            for (RoomBed b : item.getRoom().getBeds()) {
+            for (RoomBed b : reservation.getRoom().getRoomBeds()) {
                 if(!beds.isEmpty()){
                     beds+="\n";
                 }
@@ -89,8 +89,8 @@ public class AdapterReservation extends ArrayAdapter<Reservation> {
 
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-            viewHolder.tvStartDate.setText(sdf.format(item.getStartDate()));
-            viewHolder.tvEndDate.setText(sdf.format(item.getEndDate()));
+            viewHolder.tvStartDate.setText(sdf.format(reservation.getStartDate()));
+            viewHolder.tvEndDate.setText(sdf.format(reservation.getEndDate()));
 
 
         }

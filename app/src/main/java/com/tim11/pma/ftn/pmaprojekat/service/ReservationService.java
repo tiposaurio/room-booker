@@ -29,8 +29,8 @@ public class ReservationService implements GenericService<Reservation> {
 
     }
 
-    public List<Reservation> getReservations(String email){
-        return reservationAPI.getReservations(email);
+    public List<Reservation> getReservations(int userId){
+        return reservationAPI.getReservations(userId);
     }
 
     @Override

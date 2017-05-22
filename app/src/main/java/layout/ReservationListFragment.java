@@ -1,13 +1,8 @@
 package layout;
 
-import android.content.Context;
-import android.net.Uri;
-import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
@@ -16,7 +11,6 @@ import com.tim11.pma.ftn.pmaprojekat.R;
 import com.tim11.pma.ftn.pmaprojekat.model.Reservation;
 import com.tim11.pma.ftn.pmaprojekat.service.ReservationService;
 import com.tim11.pma.ftn.pmaprojekat.util.FragmentUtil;
-
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
@@ -77,11 +71,11 @@ public class ReservationListFragment extends Fragment {
             }
         });
 
+        //TODO: Use logged user's ID and call reservation for logged ID
         GraphRequest request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
             @Override
             public void onCompleted(JSONObject user, GraphResponse graphResponse) {
-
-                getReservations(user.optString("email")+".com");
+                //getReservations(user.optString("email")+".com");
 
             }
         });
@@ -95,8 +89,8 @@ public class ReservationListFragment extends Fragment {
     }
 
     @Background
-    public void getReservations(String email){
-        reservations = reservationService.getReservations(email);
+    public void getReservations(int userId){
+        reservations = reservationService.getReservations(userId);
         splitReservations();
         Bundle bundle = new Bundle();
         bundle.putSerializable("reservations_active",new ArrayList<Reservation>(reservationsActive));
