@@ -29,8 +29,8 @@ public class ReservationService implements GenericService<Reservation> {
 
     }
 
-    public List<Reservation> getReservations(int userId){
-        return reservationAPI.getReservations(userId);
+    public List<Reservation> getReservationsForFbProfile(String fbProfileId){
+        return reservationAPI.getReservationsForFbProfile(fbProfileId);
     }
 
     @Override

@@ -26,8 +26,8 @@ public interface ReservationAPI {
     @Post(value = APIConstants.RESERVATION_PATH)
     Reservation createReservation(@Body Reservation reservation);
 
-    @Get(value = APIConstants.RESERVATION_PATH + "/{userId}")
-    List<Reservation> getReservations(@Path int userId);
+    @Get(value = APIConstants.RESERVATION_PATH + "/{fbProfileId}")
+    List<Reservation> getReservationsForFbProfile(@Path String fbProfileId);
 
     // ...
 
