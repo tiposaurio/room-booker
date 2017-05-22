@@ -6,9 +6,8 @@ import com.tim11.pma.ftn.pmaprojekat.data.restapi.HotelAPI;
 import com.tim11.pma.ftn.pmaprojekat.model.Hotel;
 import com.tim11.pma.ftn.pmaprojekat.model.internal.HotelInternalModel;
 import com.tim11.pma.ftn.pmaprojekat.model.internal.InternalModelConverter;
-import com.tim11.pma.ftn.pmaprojekat.viewmodel.SearchViewModel;
+import com.tim11.pma.ftn.pmaprojekat.dto.SearchViewModel;
 
-import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.ormlite.annotations.OrmLiteDao;
 import org.androidannotations.rest.spring.annotations.RestService;

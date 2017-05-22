@@ -1,4 +1,4 @@
-package com.tim11.pma.ftn.pmaprojekat.viewmodel;
+package com.tim11.pma.ftn.pmaprojekat.dto;
 
 import java.util.List;
 

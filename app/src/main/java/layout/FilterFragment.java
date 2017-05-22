@@ -1,13 +1,6 @@
 package layout;
 
-import android.content.Context;
-import android.net.Uri;
-import android.os.Bundle;
 import android.app.Fragment;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
@@ -17,7 +10,7 @@ import com.tim11.pma.ftn.pmaprojekat.MainActivity;
 import com.tim11.pma.ftn.pmaprojekat.R;
 import com.tim11.pma.ftn.pmaprojekat.model.Hotel;
 import com.tim11.pma.ftn.pmaprojekat.service.HotelService;
-import com.tim11.pma.ftn.pmaprojekat.viewmodel.SearchViewModel;
+import com.tim11.pma.ftn.pmaprojekat.dto.SearchViewModel;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
