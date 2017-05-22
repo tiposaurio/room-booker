@@ -204,7 +204,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 DetailViewActivity.ActiveFragment result =  (DetailViewActivity.ActiveFragment) data.getSerializableExtra("result");
                 switch (result){
                     case HOTEL_LIST: changeFragment(HotelListFragment_.builder().build()); break;
-                    case FILTER: changeFragment(new FilterFragment()); break;
+                    case FILTER: changeFragment(FilterFragment_.builder().build()); break;
+                    case RESERVATIONS: changeFragment(ReservationListFragment_.builder().build()); break;
+                    case LOGOUT: logout();
                     default: changeFragment(new HotelListFragment());
                 }
 

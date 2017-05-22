@@ -30,7 +30,7 @@ public class DetailViewActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
 
-    public static enum ActiveFragment { HOTEL_LIST, FILTER, SETTINGS}
+    public static enum ActiveFragment { HOTEL_LIST, FILTER, SETTINGS, RESERVATIONS, LOGOUT}
 
     private Hotel hotel;
 
@@ -118,9 +118,24 @@ public class DetailViewActivity extends AppCompatActivity
             endActivity(Activity.RESULT_OK,ActiveFragment.FILTER);
 
 
-        } else if (id == R.id.nav_settings) {
+        }
+        else if (id == R.id.nav_reservations) {
+
+
+            endActivity(Activity.RESULT_OK, ActiveFragment.RESERVATIONS);
+
+
+        }
+        else if (id == R.id.nav_settings) {
             Intent myIntent = new Intent(this, SettingsViewActivity.class);
             this.startActivity(myIntent);
+        }
+        else if (id == R.id.logout) {
+
+
+            endActivity(Activity.RESULT_OK,ActiveFragment.LOGOUT);
+
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
