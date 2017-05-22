@@ -1,22 +1,17 @@
 package layout;
 
-import android.content.Context;
-import android.net.Uri;
-import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.Profile;
 import com.tim11.pma.ftn.pmaprojekat.R;
 import com.tim11.pma.ftn.pmaprojekat.model.Reservation;
 import com.tim11.pma.ftn.pmaprojekat.service.ReservationService;
 import com.tim11.pma.ftn.pmaprojekat.util.FragmentUtil;
-
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
@@ -77,26 +72,13 @@ public class ReservationListFragment extends Fragment {
             }
         });
 
-        GraphRequest request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
-            @Override
-            public void onCompleted(JSONObject user, GraphResponse graphResponse) {
-
-                getReservations(user.optString("email")+".com");
-
-            }
-        });
-
-        Bundle parameters = new Bundle();
-        parameters.putString("fields", "id,email");
-        request.setParameters(parameters);
-        request.executeAsync();
-
-
+        //TODO: Use logged user's ID and call reservation for logged ID
+        getReservationsForFbProfile(Profile.getCurrentProfile().getId());
     }
 
     @Background
-    public void getReservations(String email){
-        reservations = reservationService.getReservations(email);
+    public void getReservationsForFbProfile(String fbProfileId){
+        reservations = reservationService.getReservationsForFbProfile(fbProfileId);
         splitReservations();
         Bundle bundle = new Bundle();
         bundle.putSerializable("reservations_active",new ArrayList<Reservation>(reservationsActive));
@@ -120,10 +102,6 @@ public class ReservationListFragment extends Fragment {
             }else{
                 reservationsHistory.add(r);
             }
-
         }
-
     }
-
-
 }

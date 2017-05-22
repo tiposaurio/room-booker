@@ -137,7 +137,10 @@ public class FilterFragment extends Fragment {
             stars.addAll(Arrays.asList( new Integer[] {1, 2, 3, 4, 5}));
         }
 
-        SearchViewModel searchViewModel = new SearchViewModel(stars, Double.parseDouble( tvMinRating.getText().toString()) , Double.parseDouble(tvMaxRoomPrice.getText().toString()), etHotelName.getText().toString() );
+        SearchViewModel searchViewModel = new SearchViewModel(stars,
+                Double.parseDouble(tvMinRating.getText().toString()),
+                Double.parseDouble(tvMaxRoomPrice.getText().toString()),
+                etHotelName.getText().toString() );
         findHotels(searchViewModel);
     }
 

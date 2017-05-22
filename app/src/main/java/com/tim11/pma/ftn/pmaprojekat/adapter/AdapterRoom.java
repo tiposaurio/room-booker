@@ -15,16 +15,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
+import com.facebook.FacebookRequestError;
 import com.facebook.GraphRequest;
 import com.facebook.GraphRequestAsyncTask;
 import com.facebook.GraphResponse;
 import com.facebook.Profile;
 import com.tim11.pma.ftn.pmaprojekat.R;
 import com.tim11.pma.ftn.pmaprojekat.model.Amenity;
+import com.tim11.pma.ftn.pmaprojekat.model.FBUser;
 import com.tim11.pma.ftn.pmaprojekat.model.Price;
 import com.tim11.pma.ftn.pmaprojekat.model.Reservation;
 import com.tim11.pma.ftn.pmaprojekat.model.Room;
 import com.tim11.pma.ftn.pmaprojekat.model.RoomBed;
+import com.tim11.pma.ftn.pmaprojekat.model.User;
 import com.tim11.pma.ftn.pmaprojekat.service.ReservationService;
 import com.tim11.pma.ftn.pmaprojekat.service.ReservationService_;
 
@@ -84,14 +87,14 @@ public class AdapterRoom extends ArrayAdapter<Room> {
             viewHolder = (AdapterRoom.ViewHolder) convertView.getTag();
         }
 
-        final Room item = getItem(position);
-        if (item!= null) {
+        final Room room = getItem(position);
+        if (room!= null) {
 
-            viewHolder.tvName.setText(item.getName());
-            viewHolder.tvPrice.setText(String.valueOf(item.getPrice().getValue()) + " €");
-            viewHolder.tvDescription.setText(item.getDescription());
+            viewHolder.tvName.setText(room.getName());
+            viewHolder.tvPrice.setText(String.valueOf(room.getPrice().getValue()) + " €");
+            viewHolder.tvDescription.setText(room.getDescription());
             String amenities = "";
-            for (Amenity a : item.getRoomAmenity()) {
+            for (Amenity a : room.getAmenities()) {
                 if(!amenities.isEmpty()){
                     amenities+="\n";
                 }
@@ -100,7 +103,7 @@ public class AdapterRoom extends ArrayAdapter<Room> {
             }
 
             String beds = "";
-            for (RoomBed b : item.getBeds()) {
+            for (RoomBed b : room.getRoomBeds()) {
                 if(!beds.isEmpty()){
                     beds+="\n";
                 }
@@ -110,7 +113,7 @@ public class AdapterRoom extends ArrayAdapter<Room> {
             viewHolder.tvAmenities.setText(amenities);
             viewHolder.tvBeds.setText(beds);
 
-            viewHolder.btnBook.setTag("btnBook_" + item.getRoomId());
+            viewHolder.btnBook.setTag("btnBook_" + room.getId());
             viewHolder.btnBook.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -119,8 +122,8 @@ public class AdapterRoom extends ArrayAdapter<Room> {
 
                     setUserInfo(reservation);
 
-                    reservation.setRoom(item);
-                    showDialog(context,reservation,item.getPrice());
+                    reservation.setRoom(room);
+                    showDialog(context, reservation, room.getPrice());
 
                 }
             });
@@ -194,21 +197,31 @@ public class AdapterRoom extends ArrayAdapter<Room> {
         calDate.set(startYear,startMonth,startDay);
 
         return calDate.getTime();
-
     }
 
 
     public void setUserInfo(final Reservation reservation){
 
-        Profile profile = Profile.getCurrentProfile();
-        reservation.setFirstname(profile.getFirstName());
-        reservation.setLastname(profile.getLastName());
+        final Profile profile = Profile.getCurrentProfile();
+        //TODO: User saving should be done after first login, not here
+        //At the moment we are always saving new user when he make a reservation
+        final FBUser fbUser = new FBUser();
+        fbUser.setFirstname(profile.getFirstName());
+        fbUser.setLastname(profile.getLastName());
+        fbUser.setFbProfileId(profile.getId());
+        fbUser.setMiddlename(profile.getMiddleName());
+        fbUser.setProfilePictureUri(profile.getProfilePictureUri(200, 200).toString());
+        fbUser.setProfileUri(profile.getLinkUri().toString());
 
         GraphRequest request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
             @Override
             public void onCompleted(JSONObject user, GraphResponse graphResponse) {
-                reservation.setEmail(user.optString("email"));
-
+                User newUser = new User();
+                newUser.setFbUser(fbUser);
+                newUser.setFirstname(profile.getFirstName());
+                newUser.setLastname(profile.getLastName());
+                newUser.setEmail(user.optString("email"));
+                reservation.setUser(newUser);
             }
         });
 
@@ -216,20 +229,14 @@ public class AdapterRoom extends ArrayAdapter<Room> {
         parameters.putString("fields", "id,email");
         request.setParameters(parameters);
         request.executeAsync();
-
-
     }
-
 
     @Background
     public void book(Reservation reservation){
-
         try{
             reservationService.create(reservation);
         }catch(RestClientException e){
-
             Log.e("REST ERROR","Booking error");
-
         }
 
     }
