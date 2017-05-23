@@ -14,6 +14,8 @@ public class Review implements Serializable {
 
     private Hotel hotel;
 
+    private Reservation reservation;
+
     public Review() {}
 
     public int getId() {
@@ -54,5 +56,13 @@ public class Review implements Serializable {
 
     public void setHotel(Hotel hotel) {
         this.hotel = hotel;
+    }
+
+    public Reservation getReservation() {
+        return reservation;
+    }
+
+    public void setReservation(Reservation reservation) {
+        this.reservation = reservation;
     }
 }

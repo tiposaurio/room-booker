@@ -23,6 +23,8 @@ public class Reservation implements Serializable {
 
    private User user;
 
+   private Review review;
+
    public Reservation() {}
 
    public int getId() {
@@ -71,5 +73,13 @@ public class Reservation implements Serializable {
 
    public void setUser(User user) {
       this.user = user;
+   }
+
+   public Review getReview() {
+      return review;
+   }
+
+   public void setReview(Review review) {
+      this.review = review;
    }
 }

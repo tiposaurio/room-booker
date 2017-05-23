@@ -30,9 +30,9 @@ public class ReservationListFragment extends Fragment {
     @Bean
     ReservationService reservationService;
 
-    private List<Reservation> reservations;
-    private List<Reservation> reservationsActive;
-    private List<Reservation> reservationsHistory;
+    private List<Reservation> reservations = new ArrayList<>();
+    private List<Reservation> reservationsActive = new ArrayList<>();
+    private List<Reservation> reservationsHistory = new ArrayList<>();
 
     @ViewById
     TabLayout tlReservations;

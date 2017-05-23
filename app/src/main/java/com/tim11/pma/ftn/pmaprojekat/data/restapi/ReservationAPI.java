@@ -17,11 +17,9 @@ import java.util.List;
  * Created by ALOHA-PC on 28-Apr-17.
  */
 
-@Rest(rootUrl = APIConstants.ROOL_URL, converters = {MyGsonHttpMessageConverter.class,
+@Rest(rootUrl = APIConstants.ROOT_URL, converters = {MyGsonHttpMessageConverter.class,
         FormHttpMessageConverter.class})
 public interface ReservationAPI {
-
-
 
     @Post(value = APIConstants.RESERVATION_PATH)
     Reservation createReservation(@Body Reservation reservation);
@@ -30,7 +28,5 @@ public interface ReservationAPI {
     List<Reservation> getReservationsForFbProfile(@Path String fbProfileId);
 
     // ...
-
-
 
 }
