@@ -1,35 +1,25 @@
 package layout;
 
 import android.Manifest;
-import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v4.app.ActivityCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.tim11.pma.ftn.pmaprojekat.DetailViewActivity;
 import com.tim11.pma.ftn.pmaprojekat.R;
-import com.tim11.pma.ftn.pmaprojekat.adapter.AdapterHotel;
 import com.tim11.pma.ftn.pmaprojekat.model.Hotel;
 import com.tim11.pma.ftn.pmaprojekat.service.HotelService;
 
@@ -41,7 +31,6 @@ import org.androidannotations.annotations.UiThread;
 import org.springframework.web.client.RestClientException;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static android.content.Context.LOCATION_SERVICE;
 

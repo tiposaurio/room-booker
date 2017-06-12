@@ -1,9 +1,14 @@
 package com.tim11.pma.ftn.pmaprojekat;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.Fragment;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
@@ -14,6 +19,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -21,10 +29,13 @@ import com.facebook.login.LoginManager;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.tim11.pma.ftn.pmaprojekat.listener.RefreshNameDrawerListener;
 import com.tim11.pma.ftn.pmaprojekat.model.Hotel;
 import com.tim11.pma.ftn.pmaprojekat.model.SpringTestModel;
+import com.tim11.pma.ftn.pmaprojekat.model.User;
 import com.tim11.pma.ftn.pmaprojekat.service.HotelService;
 import com.tim11.pma.ftn.pmaprojekat.service.SpringTestModelService;
+import com.tim11.pma.ftn.pmaprojekat.util.PreferenceUtil;
 
 
 import org.androidannotations.annotations.AfterViews;
@@ -33,6 +44,9 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.springframework.web.client.RestClientException;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import layout.FilterFragment_;
@@ -40,6 +54,7 @@ import layout.HotelListFragment;
 import layout.HotelListFragment_;
 import layout.HotelMapFragment_;
 import layout.ReservationListFragment_;
+
 
 @EActivity
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -86,13 +101,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.addDrawerListener(new RefreshNameDrawerListener());
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        final View headerLayout = navigationView.getHeaderView(0);
+        ImageView profilePictureView = (ImageView)headerLayout.findViewById(R.id.navViewImageView);
+        TextView nameTextView = (TextView) headerLayout.findViewById(R.id.navViewFullName);
+        TextView emailTextView = (TextView) headerLayout.findViewById(R.id.navViewEmail);
+        fillNavigationViewData(profilePictureView, nameTextView, emailTextView);
 
         if(currentFragment==null){
             initializeFragment();
@@ -174,12 +196,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             changeFragment(ReservationListFragment_.builder().build());
 
-
-
         } else if (id == R.id.logout) {
-
             logout();
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -192,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK){
-                DetailViewActivity.ActiveFragment result =  (DetailViewActivity.ActiveFragment) data.getSerializableExtra("result");
+                DetailViewActivity_.ActiveFragment result =  (DetailViewActivity_.ActiveFragment) data.getSerializableExtra("result");
                 switch (result){
                     case HOTEL_LIST: changeFragment(HotelListFragment_.builder().build()); break;
                     case FILTER: changeFragment(FilterFragment_.builder().build()); break;
@@ -265,7 +283,39 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         LoginManager.getInstance().logOut();
         PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
                 .edit().remove("loggedUser").apply();
+        ContextWrapper contextWrapper = new ContextWrapper(getApplicationContext());
+        File directory = contextWrapper.getDir("images", Context.MODE_PRIVATE);
+        File mypath = new File(directory,"profile.jpg");
+        boolean deleted = mypath.delete();
         goToWelcome();
     }
 
+    @Background
+    @TargetApi(23)
+    void fillNavigationViewData(final ImageView profilePictureView,
+                                final TextView nameTextView,
+                                final TextView emailTextView) {
+        try {
+            File profilePictureFile = new File(new ContextWrapper(getApplicationContext())
+                    .getDir("images", Context.MODE_PRIVATE), "profile.jpg");
+            final Bitmap b = BitmapFactory.decodeStream(new FileInputStream(profilePictureFile));
+
+            final User loggedUser = PreferenceUtil.getLoggedUser(getApplicationContext());
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    profilePictureView.setImageBitmap(b);
+                    if (loggedUser != null) {
+                        nameTextView.setText(loggedUser.getFirstname() + " " + loggedUser.getLastname());
+                        emailTextView.setText(loggedUser.getEmail());
+                    }
+                }
+            });
+        }
+        catch (FileNotFoundException e)
+        {
+            System.out.println("Cannot find profile picture file in local directory!");
+            e.printStackTrace();
+        }
+    }
 }

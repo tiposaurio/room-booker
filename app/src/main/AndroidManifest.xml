@@ -71,7 +71,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".DetailViewActivity"
+            android:name=".DetailViewActivity_"
             android:label="@string/title_activity_detail_view"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">

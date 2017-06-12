@@ -1,8 +1,12 @@
 package com.tim11.pma.ftn.pmaprojekat;
 
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +33,11 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -65,6 +74,7 @@ public class WelcomeActivity extends AppCompatActivity {
                 // App code
                 System.out.println(">>>>>SUCCESS!");
                 saveUserIfNotExists();
+                storeProfilePictureLocally();
                 goToMain();
                 //Profile.getCurrentProfile().geti
             }
@@ -142,6 +152,39 @@ public class WelcomeActivity extends AppCompatActivity {
                     .apply();
         }
     }
+
+    @Background
+    public void storeProfilePictureLocally() {
+        try {
+            Bitmap bitmapImage = BitmapFactory
+                    .decodeStream(new URL(Profile.getCurrentProfile().getProfilePictureUri(200, 200).toString())
+                            .openConnection().getInputStream());
+            ContextWrapper cw = new ContextWrapper(getApplicationContext());
+
+            File directory = cw.getDir("images", Context.MODE_PRIVATE);
+
+            File mypath = new File(directory,"profile.jpg");
+
+            FileOutputStream fos = null;
+            try {
+                fos = new FileOutputStream(mypath);
+                // Use the compress method on the BitMap object to write image to the OutputStream
+                bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Failed to load profile picture from Facebook!");
+            e.printStackTrace();
+        }
+    }
+
     private void goToMain() {
         Intent intent = new Intent(this, MainActivity_.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
