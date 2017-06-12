@@ -32,7 +32,6 @@ import java.util.Date;
 /**
  * Created by Jan Sulja on 5/21/2017.
  */
-
 public class AdapterReservation extends ArrayAdapter<Reservation> {
 
     private ReviewService reviewService;
