@@ -3,7 +3,7 @@ package com.tim11.pma.ftn.pmaprojekat.adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,13 +14,10 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.AccessToken;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
 import com.facebook.Profile;
+import com.google.gson.Gson;
 import com.tim11.pma.ftn.pmaprojekat.R;
 import com.tim11.pma.ftn.pmaprojekat.model.Amenity;
-import com.tim11.pma.ftn.pmaprojekat.model.FBUser;
 import com.tim11.pma.ftn.pmaprojekat.model.Price;
 import com.tim11.pma.ftn.pmaprojekat.model.Reservation;
 import com.tim11.pma.ftn.pmaprojekat.model.Room;
@@ -31,7 +28,6 @@ import com.tim11.pma.ftn.pmaprojekat.service.ReservationService_;
 
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EBean;
-import org.json.JSONObject;
 import org.springframework.web.client.RestClientException;
 
 import java.util.ArrayList;
@@ -201,32 +197,15 @@ public class AdapterRoom extends ArrayAdapter<Room> {
     public void setUserInfo(final Reservation reservation){
 
         final Profile profile = Profile.getCurrentProfile();
-        //TODO: User saving should be done after first login, not here
-        //At the moment we are always saving new user when he make a reservation
-        final FBUser fbUser = new FBUser();
-        fbUser.setFirstname(profile.getFirstName());
-        fbUser.setLastname(profile.getLastName());
-        fbUser.setFbProfileId(profile.getId());
-        fbUser.setMiddlename(profile.getMiddleName());
-        fbUser.setProfilePictureUri(profile.getProfilePictureUri(200, 200).toString());
-        fbUser.setProfileUri(profile.getLinkUri().toString());
-
-        GraphRequest request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
-            @Override
-            public void onCompleted(JSONObject user, GraphResponse graphResponse) {
-                User newUser = new User();
-                newUser.setFbUser(fbUser);
-                newUser.setFirstname(profile.getFirstName());
-                newUser.setLastname(profile.getLastName());
-                newUser.setEmail(user.optString("email"));
-                reservation.setUser(newUser);
-            }
-        });
-
-        Bundle parameters = new Bundle();
-        parameters.putString("fields", "id,email");
-        request.setParameters(parameters);
-        request.executeAsync();
+        String loggedUserString = PreferenceManager
+                .getDefaultSharedPreferences(getContext().getApplicationContext())
+                .getString("loggedUser", null);
+        if (loggedUserString != null) {
+            User loggedUser = new Gson().fromJson(loggedUserString, User.class);
+            reservation.setUser(loggedUser);
+        } else {
+            throw new RuntimeException("No logged user in shared preferences. Should not happen.");
+        }
     }
 
     @Background

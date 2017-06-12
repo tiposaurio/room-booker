@@ -5,7 +5,6 @@ package com.tim11.pma.ftn.pmaprojekat.data.restapi;
  */
 
 public interface APIConstants {
-
     /* for testing - this link returns random object (SpringTestModel.java)*/
     String TEST_URL = "https://gturnquist-quoters.cfapps.io/api/random";
 
@@ -22,6 +21,8 @@ public interface APIConstants {
     String RESERVATION_PATH = "/reservation";
 
     String REVIEW_PATH = "/review";
+
+    String USER_PATH = "/user";
 
     // ...
 

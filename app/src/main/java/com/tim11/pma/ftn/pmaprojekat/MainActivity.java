@@ -5,9 +5,7 @@ import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -36,13 +34,10 @@ import org.androidannotations.annotations.EActivity;
 import org.springframework.web.client.RestClientException;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import layout.FilterFragment;
 import layout.FilterFragment_;
 import layout.HotelListFragment;
 import layout.HotelListFragment_;
-import layout.HotelMapFragment;
 import layout.HotelMapFragment_;
 import layout.ReservationListFragment_;
 
@@ -105,8 +100,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-
-
     @AfterViews
     @Background
     void restTest() {
@@ -124,8 +117,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             System.out.println("ERORCINA");
         }
     }
-
-
 
     @Override
     public void onBackPressed() {
@@ -264,7 +255,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     private void goToWelcome() {
-        Intent intent = new Intent(this, WelcomeActivity.class);
+        Intent intent = new Intent(this, WelcomeActivity_.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
@@ -272,8 +263,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void logout(){
         LoginManager.getInstance().logOut();
+        PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
+                .edit().remove("loggedUser").apply();
         goToWelcome();
     }
-
 
 }

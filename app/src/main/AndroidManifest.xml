@@ -84,7 +84,7 @@
             android:label="@string/title_activity_settings_view">
 
         </activity>
-        <activity android:name=".WelcomeActivity">
+        <activity android:name=".WelcomeActivity_">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

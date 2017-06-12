@@ -4,16 +4,17 @@ package com.tim11.pma.ftn.pmaprojekat;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
@@ -21,7 +22,12 @@ import android.preference.RingtonePreference;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Switch;
+
+import com.google.gson.Gson;
+import com.tim11.pma.ftn.pmaprojekat.model.Address;
+import com.tim11.pma.ftn.pmaprojekat.model.User;
+import com.tim11.pma.ftn.pmaprojekat.service.UserService;
+import com.tim11.pma.ftn.pmaprojekat.service.UserService_;
 
 import java.util.List;
 
@@ -37,6 +43,7 @@ import java.util.List;
  * API Guide</a> for more information on developing a Settings UI.
  */
 public class SettingsViewActivity extends AppCompatPreferenceActivity {
+
     /**
      * A preference value change listener that updates the preference's summary
      * to reflect its new value.
@@ -83,6 +90,32 @@ public class SettingsViewActivity extends AppCompatPreferenceActivity {
             } else {
                 // For all other preferences, set the summary to the value's
                 // simple string representation.
+                SharedPreferences sharedPreferences = PreferenceManager
+                        .getDefaultSharedPreferences(preference.getContext().getApplicationContext());
+                String loggedUserString = sharedPreferences.getString("loggedUser", null);
+                Gson gson = new Gson();
+                User loggedUser = (loggedUserString!=null)
+                        ? gson.fromJson(loggedUserString, User.class) : null;
+                switch (preference.getKey()) {
+                    case PersonalInformationPreferenceFragment.FIRST_NAME_PREFERENCE: {
+                        //TODO save to local user
+                        if (loggedUser != null) {
+                            loggedUser.setFirstname(stringValue);
+                            sharedPreferences.edit()
+                                    .putString("loggedUser", gson.toJson(loggedUser)).apply();
+                        }
+                        break;
+                    }
+                    case PersonalInformationPreferenceFragment.LAST_NAME_PREFERENCE: {
+                        //TODO save to local user
+                        if (loggedUser != null) {
+                            loggedUser.setLastname(stringValue);
+                            sharedPreferences.edit()
+                                    .putString("loggedUser", gson.toJson(loggedUser)).apply();
+                        }
+                    }
+                    // TODO look what to do for the address
+                }
                 preference.setSummary(stringValue);
             }
             return true;
@@ -278,6 +311,11 @@ public class SettingsViewActivity extends AppCompatPreferenceActivity {
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class PersonalInformationPreferenceFragment extends PreferenceFragment {
+
+        public static final String FIRST_NAME_PREFERENCE = "first_name";
+        public static final String LAST_NAME_PREFERENCE = "last_name";
+        public static final String ADDRESS_PREFERENCE = "address";
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -288,9 +326,42 @@ public class SettingsViewActivity extends AppCompatPreferenceActivity {
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
             // guidelines.
-            bindPreferenceSummaryToValue(findPreference("full_name"));
-            bindPreferenceSummaryToValue(findPreference("address"));
-            bindPreferenceSummaryToValue(findPreference("id_number"));
+            setLoggedUserInfo();
+            bindPreferenceSummaryToValue(findPreference(PersonalInformationPreferenceFragment.FIRST_NAME_PREFERENCE));
+            bindPreferenceSummaryToValue(findPreference(PersonalInformationPreferenceFragment.LAST_NAME_PREFERENCE));
+            bindPreferenceSummaryToValue(findPreference(PersonalInformationPreferenceFragment.ADDRESS_PREFERENCE));
+        }
+
+        @Override
+        public void onDestroyView() {
+            super.onDestroyView();
+            final UserService userService = UserService_.getInstance_(getActivity());
+            User loggedUser =
+                    new Gson().fromJson(PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext())
+                            .getString("loggedUser", null), User.class);
+            if (loggedUser == null)
+                return;
+            AsyncTask<User, Object, User> createUserTask = new AsyncTask<User, Object, User>() {
+                @Override
+                protected User doInBackground(User[] params) {
+                    return userService.create(params[0]);
+                }
+            }.execute(loggedUser);
+        }
+
+        private void setLoggedUserInfo() {
+            User loggedUser =
+                    new Gson().fromJson(PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext())
+                            .getString("loggedUser", null), User.class);
+            if (loggedUser == null)
+                return;
+            Preference firstNamePreference = findPreference(PersonalInformationPreferenceFragment.FIRST_NAME_PREFERENCE);
+            firstNamePreference.setSummary(loggedUser.getFirstname());
+            Preference lastNamePreference = findPreference(PersonalInformationPreferenceFragment.LAST_NAME_PREFERENCE);
+            lastNamePreference.setSummary(loggedUser.getLastname());
+            Preference addressPreference = findPreference(PersonalInformationPreferenceFragment.ADDRESS_PREFERENCE);
+            Address loggedUsersAddress = loggedUser.getAddress();
+            addressPreference.setSummary((loggedUsersAddress==null)?"No address":loggedUsersAddress.toString());
         }
 
         @Override

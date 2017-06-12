@@ -4,8 +4,14 @@
         android:defaultValue="Default value"
         android:selectAllOnFocus="true"
         android:singleLine="true"
-        android:key="full_name"
-        android:title="@string/pref_title_full_name" />
+        android:key="first_name"
+        android:title="@string/pref_title_first_name" />
+    <EditTextPreference
+        android:defaultValue="Default value"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:key="last_name"
+        android:title="@string/pref_title_last_name" />
     <EditTextPreference
         android:defaultValue="Default value"
         android:selectAllOnFocus="true"
