@@ -7,6 +7,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+
+import com.tim11.pma.ftn.pmaprojekat.DetailViewActivity;
 import com.tim11.pma.ftn.pmaprojekat.DetailViewActivity_;
 import com.tim11.pma.ftn.pmaprojekat.MainActivity;
 import com.tim11.pma.ftn.pmaprojekat.R;

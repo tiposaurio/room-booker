@@ -4,6 +4,16 @@
 
 
     <item
+        android:id="@+id/action_favourites"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checkable="true"
+        android:icon="@drawable/ic_favourite"
+        android:orderInCategory="200"
+        android:title="Search"
+        app:showAsAction="always"></item>
+
+    <item
         android:id="@+id/action_refresh"
         android:orderInCategory="200"
         android:title="Search"

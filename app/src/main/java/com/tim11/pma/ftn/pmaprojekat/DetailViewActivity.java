@@ -14,12 +14,15 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.menu.ActionMenuItemView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 
 import com.tim11.pma.ftn.pmaprojekat.listener.RefreshNameDrawerListener;
 import com.tim11.pma.ftn.pmaprojekat.model.Hotel;
@@ -27,13 +30,28 @@ import com.tim11.pma.ftn.pmaprojekat.model.User;
 import com.tim11.pma.ftn.pmaprojekat.util.PreferenceUtil;
 
 import org.androidannotations.annotations.Background;
-import org.androidannotations.annotations.EActivity;
+
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.Dao;
+import com.tim11.pma.ftn.pmaprojekat.data.db.DatabaseHelper;
+import com.tim11.pma.ftn.pmaprojekat.data.db.HotelDAO;
+
+import com.tim11.pma.ftn.pmaprojekat.model.internal.HotelInternalModel;
+
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ViewById;
+
+import java.sql.SQLException;
+
+
 import layout.HotelDetailsFragment_;
+import layout.HotelInformationFragment;
 
 @EActivity
 public class DetailViewActivity extends AppCompatActivity
@@ -43,6 +61,9 @@ public class DetailViewActivity extends AppCompatActivity
     public static enum ActiveFragment { HOTEL_LIST, FILTER, SETTINGS, RESERVATIONS, LOGOUT}
 
     private Hotel hotel;
+
+    private boolean isFavourite;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,13 +94,44 @@ public class DetailViewActivity extends AppCompatActivity
 
         hotel = (Hotel) getIntent().getSerializableExtra("hotel");
 
+
         View headerLayout = navigationView.getHeaderView(0);
         ImageView profilePictureView = (ImageView)headerLayout.findViewById(R.id.navViewImageView);
         TextView nameTextView = (TextView) headerLayout.findViewById(R.id.navViewFullName);
         TextView emailTextView = (TextView) headerLayout.findViewById(R.id.navViewEmail);
         fillNavigationViewData(profilePictureView, nameTextView, emailTextView);
 
+
         initializeFragment();
+    }
+
+    private void initializeFavouriteHotelIcon(MenuItem menuItem) {
+
+        DatabaseHelper helper = OpenHelperManager.getHelper(getApplicationContext(),DatabaseHelper.class);
+        HotelDAO hotelDao = null;
+        try {
+            hotelDao = helper.getHotelDao();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            HotelInternalModel him = hotelDao.getByActualId(hotel.getId());
+            if(him!=null){
+
+                menuItem.setIcon(getDrawable(R.drawable.ic_favourite_on));
+                isFavourite = true;
+            }else{
+                menuItem.setIcon(getDrawable(R.drawable.ic_favourite_off));
+                isFavourite = false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+
+
     }
 
     @Override
@@ -95,9 +147,14 @@ public class DetailViewActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+
         getMenuInflater().inflate(R.menu.detail_view, menu);
+        initializeFavouriteHotelIcon(menu.findItem(R.id.action_favourites));
+
         return true;
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -107,10 +164,29 @@ public class DetailViewActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+        if (id == R.id.action_favourites) {
 
+            ActionMenuItemView menu = (ActionMenuItemView) findViewById(R.id.action_favourites);
+            DatabaseHelper helper = OpenHelperManager.getHelper(getApplicationContext(),DatabaseHelper.class);
+            HotelDAO hotelDao = null;
+            try {
+                hotelDao = helper.getHotelDao();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            if(!isFavourite){
+                hotelDao.addToFavourites(hotel);
+                isFavourite = true;
+                menu.setIcon(getDrawable(R.drawable.ic_favourite_on));
+            }else{
+                hotelDao.removeFromFavourites(hotel);
+                menu.setIcon(getDrawable(R.drawable.ic_favourite_off));
+                isFavourite = false;
+            }
+
+            return true;
+
+        }
         return super.onOptionsItemSelected(item);
     }
 

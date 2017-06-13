@@ -4,11 +4,13 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
+import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import com.tim11.pma.ftn.pmaprojekat.model.Hotel;
 import com.tim11.pma.ftn.pmaprojekat.model.Reservation;
 import com.tim11.pma.ftn.pmaprojekat.model.internal.HotelInternalModel;
+import com.tim11.pma.ftn.pmaprojekat.model.internal.InternalModel;
 
 import java.sql.SQLException;
 
@@ -20,6 +22,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME = "pma.db";
     private static final int DATABASE_VERSION = 2; // TODO - when you change entities - change version
+
+    private HotelDAO mHotelDao = null;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -47,5 +51,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public HotelDAO getHotelDao() throws SQLException {
+        if(mHotelDao==null){
+            Dao<HotelInternalModel,Integer> dao = getDao(HotelInternalModel.class);
+            mHotelDao = new HotelDAO(dao);
+        }
+        return mHotelDao;
     }
 }
