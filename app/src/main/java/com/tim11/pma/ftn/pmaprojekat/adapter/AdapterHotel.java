@@ -12,12 +12,11 @@ import android.widget.TextView;
 import com.tim11.pma.ftn.pmaprojekat.R;
 import com.tim11.pma.ftn.pmaprojekat.model.Hotel;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Jan Sulja on 4/19/2017.
  */
-
 public class AdapterHotel extends ArrayAdapter<Hotel> {
 
     private static class ViewHolder {
@@ -27,10 +26,9 @@ public class AdapterHotel extends ArrayAdapter<Hotel> {
         private TextView hotelReviewsView;
         private RatingBar hotelStarsView;
         private ImageView hotelImageView;
-
     }
 
-    public AdapterHotel(Context context, int textViewResourceId, ArrayList<Hotel> items) {
+    public AdapterHotel(Context context, int textViewResourceId, List<Hotel> items) {
         super(context, textViewResourceId, items);
     }
 

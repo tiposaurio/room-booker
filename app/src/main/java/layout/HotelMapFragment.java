@@ -37,7 +37,6 @@ import static android.content.Context.LOCATION_SERVICE;
 @EFragment
 public class HotelMapFragment extends Fragment implements OnMapReadyCallback, LocationListener {
 
-
     private GoogleMap map;
     private LocationManager locationManager;
     private static final long MIN_TIME = 400;
@@ -46,7 +45,6 @@ public class HotelMapFragment extends Fragment implements OnMapReadyCallback, Lo
 
     @Bean
     HotelService hotelService;
-
 
     @AfterViews
     @Background
@@ -61,10 +59,8 @@ public class HotelMapFragment extends Fragment implements OnMapReadyCallback, Lo
         }
     }
 
-
     @UiThread
     void updateVeiw() {
-
         addMarkersToMap();
     }
 
@@ -72,8 +68,6 @@ public class HotelMapFragment extends Fragment implements OnMapReadyCallback, Lo
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
-
         return inflater.inflate(R.layout.fragment_hotel_map, container, false);
     }
 
@@ -88,22 +82,23 @@ public class HotelMapFragment extends Fragment implements OnMapReadyCallback, Lo
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
-        map.setMyLocationEnabled(true);
+        try {
+            map.setMyLocationEnabled(true);
+            locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
 
-        locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-            return;
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DISTANCE, this); //You can also use LocationManager.GPS_PROVIDER and LocationManager.PASSIVE_PROVIDER
+            onLocationChanged(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
+        } catch (SecurityException e) {
+            System.out.println("Permission not granted! Granting permissions.");
+            String[] permissions = new String[2];
+            permissions[0] = android.Manifest.permission.ACCESS_FINE_LOCATION;
+            permissions[1] = Manifest.permission.ACCESS_COARSE_LOCATION;
+            ActivityCompat.requestPermissions(getActivity(), permissions, 1);
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DISTANCE, this); //You can also use LocationManager.GPS_PROVIDER and LocationManager.PASSIVE_PROVIDER
-        onLocationChanged(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
-
-
     }
 
-
     private void addMarkersToMap() {
-
         for (Hotel hotel : hotelList) {
             double lat = hotel.getAddress().getLatitude();
             double lng = hotel.getAddress().getLongitude();
@@ -113,9 +108,6 @@ public class HotelMapFragment extends Fragment implements OnMapReadyCallback, Lo
             MarkerOptions mo = new MarkerOptions().position(latLng).title(hotel.getName());
             map.addMarker(mo).showInfoWindow();
         }
-
-
-
     }
 
     @Override

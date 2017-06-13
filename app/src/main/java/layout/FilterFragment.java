@@ -145,12 +145,12 @@ public class FilterFragment extends Fragment {
             List<Hotel> result = hotelService.search(searchViewModel);
             MainActivity mainActivity = (MainActivity)getActivity();
 
-            ArrayList<Hotel> alResult = new ArrayList<Hotel>(result);
+            List<Hotel> alResult = new ArrayList<>(result);
             mainActivity.setHotelList(alResult);
             mainActivity.changeFragment(HotelListFragment_.builder().build());
 
         }catch(RestClientException e){
-
+            e.printStackTrace();
         }
     }
 

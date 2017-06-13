@@ -7,8 +7,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-
-import com.tim11.pma.ftn.pmaprojekat.DetailViewActivity;
 import com.tim11.pma.ftn.pmaprojekat.DetailViewActivity_;
 import com.tim11.pma.ftn.pmaprojekat.MainActivity;
 import com.tim11.pma.ftn.pmaprojekat.R;
@@ -25,18 +23,14 @@ import org.androidannotations.annotations.ViewById;
 import org.springframework.web.client.RestClientException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @EFragment(R.layout.fragment_hotel_list)
 public class HotelListFragment extends Fragment {
 
-
-
     private ArrayAdapter<Hotel> adapter;
 
-    private ArrayList<Hotel> hotelList;
-
-
-
+    private List<Hotel> hotelList;
 
     @ViewById
     ListView list;
@@ -55,7 +49,7 @@ public class HotelListFragment extends Fragment {
             list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    Hotel hotel = (Hotel) adapter.getItem(i);
+                    Hotel hotel = adapter.getItem(i);
                     Intent myIntent = new Intent(getActivity(), DetailViewActivity_.class);
                     myIntent.putExtra("hotel", hotel); //Optional parameters
                     //getActivity().startActivity(myIntent);
@@ -71,32 +65,17 @@ public class HotelListFragment extends Fragment {
 
         MainActivity mainActivity =(MainActivity)getActivity();
         if(mainActivity.getHotelList() == null){
-
             try {
                 hotelList = new ArrayList<>(hotelService.get());
-
-
-
             } catch (RestClientException e) {
                 System.out.println("ERROR" + e.toString());
-                hotelList = new ArrayList<Hotel>();
-
+                hotelList = new ArrayList<>();
             }
-
         }else{
             hotelList = mainActivity.getHotelList();
-
         }
-
         updateVeiw();
-
-
     }
-
-
-
-
-
 
 //    @Override
 //    public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -5,7 +5,6 @@ import java.util.List;
 /**
  * Created by ALOHA-PC on 27-Apr-17.
  */
-
 public interface GenericService<T> {
 
     List<T> get();
@@ -13,4 +12,5 @@ public interface GenericService<T> {
     T create(T entity);
 
     T getById(int id);
+
 }

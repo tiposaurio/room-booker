@@ -18,7 +18,6 @@ import java.util.List;
 /**
  * Created by ALOHA-PC on 28-Apr-17.
  */
-
 @EBean
 public class HotelService implements GenericService<Hotel> {
 
@@ -41,6 +40,10 @@ public class HotelService implements GenericService<Hotel> {
     @Override
     public Hotel getById(int id) {
         return hotelAPI.getHotel(id);
+    }
+
+    public List<Hotel> getAllByIds(Integer[] ids) {
+        return hotelAPI.getHotelsByIds(ids);
     }
 
     public void saveFavouriteHotel(Hotel hotel){

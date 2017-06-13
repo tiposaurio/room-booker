@@ -90,6 +90,13 @@
     <string name="pref_theme_switch_text_off">Light</string>
     <string name="pref_theme_switch_text_on">Dark</string>
 
+
+    <string name="show_favourites">Show Favourites</string>
+    <string name="search">Search</string>
+    <string name="refresh">Refresh</string>
+    <string name="map">Map</string>
+    <string name="show_all">Show all</string>
+
     <!--FACEBOOK-->
     <string name="facebook_app_id">770718383105657</string>
     <string name="fb_login_protocol_scheme">fb770718383105657</string>

@@ -7,61 +7,42 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/menu_action_show_all"
+        android:title="@string/show_all"
         android:orderInCategory="100"
-        android:title="Menu item 1"
         app:showAsAction="never"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <item
-
+        android:id="@+id/menu_action_show_favourites"
+        android:title="@string/show_favourites"
         android:orderInCategory="100"
-        android:title="Menu item 2"
         app:showAsAction="never"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <item
-
+        android:id="@+id/menu_action_search"
         android:orderInCategory="100"
-        android:title="Menu item 3"
+        android:title="@string/search"
         app:showAsAction="never"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <item
-        android:id="@+id/action_search"
-        android:orderInCategory="200"
-        android:title="Search"
+        android:id="@+id/menu_action_refresh"
+        android:title="@string/refresh"
         android:icon="@drawable/ic_loop_back"
-        app:showAsAction="always"
+        android:orderInCategory="200"
+        app:showAsAction="ifRoom"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"></item>
+        android:layout_height="wrap_content" />
 
     <item
-
-        android:orderInCategory="200"
-        android:title="Search"
-        android:icon="@drawable/ic_hotel_black"
-        app:showAsAction="always"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"></item>
-
-    <item
-        android:id="@+id/action_map"
-        android:orderInCategory="200"
-        android:title="Search"
+        android:id="@+id/menu_action_map"
+        android:title="@string/map"
         android:icon="@drawable/ic_map_black"
-        app:showAsAction="always"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"></item>
-
-    <item
-
         android:orderInCategory="200"
-        android:title="Search"
-        android:icon="@drawable/ic_format_clear_black"
-        app:showAsAction="always"
+        app:showAsAction="ifRoom"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"></item>
-
+        android:layout_height="wrap_content" />
 
 </menu>

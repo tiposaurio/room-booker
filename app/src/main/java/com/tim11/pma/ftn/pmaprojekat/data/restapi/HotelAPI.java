@@ -16,13 +16,15 @@ import java.util.List;
 /**
  * Created by ALOHA-PC on 28-Apr-17.
  */
-
 @Rest(rootUrl = APIConstants.ROOT_URL, converters = {MyGsonHttpMessageConverter.class,
         FormHttpMessageConverter.class})
 public interface HotelAPI {
 
     @Get(value = APIConstants.HOTEL_PATH)
     List<Hotel> getHotels();
+
+    @Post(value = APIConstants.HOTEL_PATH + "/ids")
+    List<Hotel> getHotelsByIds(@Body Integer[] ids);
 
     @Post(value = APIConstants.HOTEL_PATH)
     Hotel createHotel(@Body Hotel hotel);
@@ -32,7 +34,5 @@ public interface HotelAPI {
 
     @Get(APIConstants.HOTEL_PATH+"/{id}")
     Hotel getHotel(@Path int id);
-
-    // ...
 
 }
