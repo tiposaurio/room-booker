@@ -28,6 +28,7 @@ import com.tim11.pma.ftn.pmaprojekat.model.Address;
 import com.tim11.pma.ftn.pmaprojekat.model.User;
 import com.tim11.pma.ftn.pmaprojekat.service.UserService;
 import com.tim11.pma.ftn.pmaprojekat.service.UserService_;
+import com.tim11.pma.ftn.pmaprojekat.util.PreferenceUtil;
 
 import java.util.List;
 
@@ -141,16 +142,25 @@ public class SettingsViewActivity extends AppCompatPreferenceActivity {
      * @see #sBindPreferenceSummaryToValueListener
      */
     private static void bindPreferenceSummaryToValue(Preference preference) {
+        bindPreferenceSummaryToValue(preference, null);
+    }
+
+    private static void bindPreferenceSummaryToValue(Preference preference, String bindNewValue) {
         // Set the listener to watch for value changes.
         preference.setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
 
         // Trigger the listener immediately with the preference's
-        // current value.
-        sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
-                PreferenceManager
-                        .getDefaultSharedPreferences(preference.getContext())
-                        .getString(preference.getKey(), ""));
+        // current value or new value if defined.
+        if (bindNewValue == null) {
+            sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
+                    PreferenceManager
+                            .getDefaultSharedPreferences(preference.getContext())
+                            .getString(preference.getKey(), ""));
+        } else {
+            sBindPreferenceSummaryToValueListener.onPreferenceChange(preference, bindNewValue);
+        }
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -327,9 +337,24 @@ public class SettingsViewActivity extends AppCompatPreferenceActivity {
             // updated to reflect the new value, per the Android Design
             // guidelines.
             setLoggedUserInfo();
-            bindPreferenceSummaryToValue(findPreference(PersonalInformationPreferenceFragment.FIRST_NAME_PREFERENCE));
-            bindPreferenceSummaryToValue(findPreference(PersonalInformationPreferenceFragment.LAST_NAME_PREFERENCE));
-            bindPreferenceSummaryToValue(findPreference(PersonalInformationPreferenceFragment.ADDRESS_PREFERENCE));
+            User loggedUser = PreferenceUtil.getLoggedUser(getActivity().getApplicationContext());
+            String firstName = "";
+            String lastName = "";
+            String address = "";
+            if (loggedUser != null) {
+                firstName = loggedUser.getFirstname();
+                lastName = loggedUser.getLastname();
+                Address userAddress = loggedUser.getAddress();
+                if (userAddress != null) {
+                    address = userAddress.toString();
+                }
+            }
+            bindPreferenceSummaryToValue(
+                    findPreference(PersonalInformationPreferenceFragment.FIRST_NAME_PREFERENCE), firstName);
+            bindPreferenceSummaryToValue(
+                    findPreference(PersonalInformationPreferenceFragment.LAST_NAME_PREFERENCE), lastName);
+            bindPreferenceSummaryToValue(
+                    findPreference(PersonalInformationPreferenceFragment.ADDRESS_PREFERENCE), address);
         }
 
         @Override

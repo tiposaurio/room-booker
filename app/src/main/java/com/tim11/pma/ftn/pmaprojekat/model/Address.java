@@ -102,4 +102,28 @@ public class Address implements Serializable {
    public void setUsers(Set<User> users) {
       this.users = users;
    }
+
+   @Override
+   public String toString() {
+      String retValue = "";
+      if (street != null) {
+         retValue = retValue.concat(street);
+         if (number != null) {
+            retValue = retValue.concat(" " + number);
+         }
+      }
+      if (city != null) {
+         if (retValue.length() != 0) {
+            retValue = retValue.concat(" ");
+         }
+         retValue = retValue.concat(city);
+      }
+      if (country != null) {
+         if (retValue.length() != 0) {
+            retValue = retValue.concat(" ");
+         }
+         retValue = retValue.concat(country);
+      }
+      return retValue;
+   }
 }
