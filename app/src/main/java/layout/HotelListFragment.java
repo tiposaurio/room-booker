@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.tim11.pma.ftn.pmaprojekat.DetailViewActivity;
+import com.tim11.pma.ftn.pmaprojekat.DetailViewActivity_;
 import com.tim11.pma.ftn.pmaprojekat.MainActivity;
 import com.tim11.pma.ftn.pmaprojekat.R;
 import com.tim11.pma.ftn.pmaprojekat.adapter.AdapterHotel;
@@ -62,7 +63,7 @@ public class HotelListFragment extends Fragment {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     Hotel hotel = (Hotel) adapter.getItem(i);
-                    Intent myIntent = new Intent(getActivity(), DetailViewActivity.class);
+                    Intent myIntent = new Intent(getActivity(), DetailViewActivity_.class);
                     myIntent.putExtra("hotel", hotel); //Optional parameters
                     //getActivity().startActivity(myIntent);
                     getActivity().startActivityForResult(myIntent, 1);
