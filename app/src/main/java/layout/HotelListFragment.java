@@ -8,13 +8,20 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 
+import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.tim11.pma.ftn.pmaprojekat.DetailViewActivity;
 import com.tim11.pma.ftn.pmaprojekat.DetailViewActivity_;
 import com.tim11.pma.ftn.pmaprojekat.MainActivity;
 import com.tim11.pma.ftn.pmaprojekat.R;
 import com.tim11.pma.ftn.pmaprojekat.adapter.AdapterHotel;
+import com.tim11.pma.ftn.pmaprojekat.data.db.DatabaseHelper;
+import com.tim11.pma.ftn.pmaprojekat.data.db.FavouritesDAO;
+import com.tim11.pma.ftn.pmaprojekat.data.db.HotelDAO;
+import com.tim11.pma.ftn.pmaprojekat.data.db.RoomDAO;
 import com.tim11.pma.ftn.pmaprojekat.model.Hotel;
+import com.tim11.pma.ftn.pmaprojekat.model.Room;
 import com.tim11.pma.ftn.pmaprojekat.service.HotelService;
+import com.tim11.pma.ftn.pmaprojekat.service.internal.HotelInternalService;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
@@ -22,14 +29,25 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.ormlite.annotations.OrmLiteDao;
 import org.springframework.web.client.RestClientException;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @EFragment(R.layout.fragment_hotel_list)
 public class HotelListFragment extends Fragment {
 
+    @OrmLiteDao(helper = DatabaseHelper.class)
+    HotelDAO hotelDAO;
 
+    @OrmLiteDao(helper = DatabaseHelper.class)
+    RoomDAO roomDAO;
+
+    @Bean
+    HotelInternalService hotelInternalService;
 
     private ArrayAdapter<Hotel> adapter;
 
@@ -72,14 +90,22 @@ public class HotelListFragment extends Fragment {
         MainActivity mainActivity =(MainActivity)getActivity();
         if(mainActivity.getHotelList() == null){
 
-            try {
-                hotelList = new ArrayList<>(hotelService.get());
+            List<Hotel> internalHotelList = null;
+            internalHotelList = hotelInternalService.getAll();
 
+            if(internalHotelList == null || internalHotelList.isEmpty()){
+                try {
+                    List<Hotel> externalHotelList = hotelService.get();
+                    hotelList = new ArrayList<>(externalHotelList);
 
+                    hotelInternalService.createAll(externalHotelList);
+                } catch (RestClientException e) {
+                    System.out.println("ERROR" + e.toString());
+                    hotelList = new ArrayList<Hotel>();
+                }
+            }else{
 
-            } catch (RestClientException e) {
-                System.out.println("ERROR" + e.toString());
-                hotelList = new ArrayList<Hotel>();
+                hotelList = new ArrayList<>(internalHotelList);
 
             }
 

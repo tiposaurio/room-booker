@@ -3,6 +3,7 @@ package com.tim11.pma.ftn.pmaprojekat.service;
 import com.tim11.pma.ftn.pmaprojekat.data.restapi.HotelAPI;
 import com.tim11.pma.ftn.pmaprojekat.data.restapi.ReservationAPI;
 import com.tim11.pma.ftn.pmaprojekat.model.Reservation;
+import com.tim11.pma.ftn.pmaprojekat.model.Room;
 
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.rest.spring.annotations.RestService;
@@ -25,6 +26,9 @@ public class ReservationService implements GenericService<Reservation> {
 
     @Override
     public Reservation create(Reservation entity) {
+
+        Room originalRoom = reservationAPI.getRoomById(entity.getRoom().getId());
+        entity.setRoom(originalRoom);
         return reservationAPI.createReservation(entity);
 
     }

@@ -6,18 +6,20 @@
 
 package com.tim11.pma.ftn.pmaprojekat.model;
 
+import com.j256.ormlite.field.DatabaseField;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
 public class Price implements Serializable {
-
+   @DatabaseField(generatedId = true,allowGeneratedIdInsert=true)
    private int id;
-
+   @DatabaseField
    private Date startDate;
-
+   @DatabaseField
    private Date endDate;
-
+   @DatabaseField
    private double value;
 
    private Set<Room> rooms;

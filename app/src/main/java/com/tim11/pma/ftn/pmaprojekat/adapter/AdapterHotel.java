@@ -66,7 +66,7 @@ public class AdapterHotel extends ArrayAdapter<Hotel> {
 
             viewHolder.hotelRatingView.setText(String.format("%1$,.2f /10",hotel.getRating()));
 
-            String reviewText = hotel.getReviews().size() == 0
+            String reviewText = hotel.getReviews()==null || hotel.getReviews().size() == 0
                     ? "No reviews": hotel.getReviews().size() + " reviews";
             viewHolder.hotelReviewsView.setText(reviewText);
 

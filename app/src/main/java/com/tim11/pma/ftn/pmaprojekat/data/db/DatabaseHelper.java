@@ -5,10 +5,21 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
+import com.tim11.pma.ftn.pmaprojekat.model.Address;
+import com.tim11.pma.ftn.pmaprojekat.model.Amenity;
+import com.tim11.pma.ftn.pmaprojekat.model.Bed;
+import com.tim11.pma.ftn.pmaprojekat.model.FBUser;
 import com.tim11.pma.ftn.pmaprojekat.model.Hotel;
+import com.tim11.pma.ftn.pmaprojekat.model.Price;
 import com.tim11.pma.ftn.pmaprojekat.model.Reservation;
+import com.tim11.pma.ftn.pmaprojekat.model.Review;
+import com.tim11.pma.ftn.pmaprojekat.model.Room;
+import com.tim11.pma.ftn.pmaprojekat.model.RoomAmenity;
+import com.tim11.pma.ftn.pmaprojekat.model.RoomBed;
+import com.tim11.pma.ftn.pmaprojekat.model.User;
 import com.tim11.pma.ftn.pmaprojekat.model.internal.HotelInternalModel;
 import com.tim11.pma.ftn.pmaprojekat.model.internal.InternalModel;
 
@@ -21,9 +32,10 @@ import java.sql.SQLException;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME = "pma.db";
-    private static final int DATABASE_VERSION = 2; // TODO - when you change entities - change version
+    private static final int DATABASE_VERSION = 46; // TODO - when you change entities - change version
 
-    private HotelDAO mHotelDao = null;
+    private FavouritesDAO mFavouritesDao = null;
+
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -34,6 +46,15 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         try {
             //CREATE TEBLES
             TableUtils.createTable(connectionSource, HotelInternalModel.class);
+            TableUtils.createTable(connectionSource, Hotel.class);
+            TableUtils.createTable(connectionSource, Address.class);
+            TableUtils.createTable(connectionSource, Amenity.class);
+            TableUtils.createTable(connectionSource, RoomAmenity.class);
+            TableUtils.createTable(connectionSource, Bed.class);
+            TableUtils.createTable(connectionSource, Price.class);
+            TableUtils.createTable(connectionSource, Room.class);
+            TableUtils.createTable(connectionSource, RoomBed.class);
+
             //...
         } catch (SQLException e) {
             e.printStackTrace();
@@ -45,6 +66,14 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         try {
             //SAME
             TableUtils.dropTable(connectionSource, HotelInternalModel.class, true);
+            TableUtils.dropTable(connectionSource, Hotel.class, true);
+            TableUtils.dropTable(connectionSource, Address.class,true);
+            TableUtils.dropTable(connectionSource, Amenity.class,true);
+            TableUtils.dropTable(connectionSource, RoomAmenity.class,true);
+            TableUtils.dropTable(connectionSource, Bed.class,true);
+            TableUtils.dropTable(connectionSource, Price.class,true);
+            TableUtils.dropTable(connectionSource, Room.class,true);
+            TableUtils.dropTable(connectionSource, RoomBed.class,true);
             //...
 
             onCreate(database, connectionSource);
@@ -53,11 +82,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         }
     }
 
-    public HotelDAO getHotelDao() throws SQLException {
-        if(mHotelDao==null){
-            Dao<HotelInternalModel,Integer> dao = getDao(HotelInternalModel.class);
-            mHotelDao = new HotelDAO(dao);
-        }
-        return mHotelDao;
-    }
+
+
 }

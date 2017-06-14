@@ -6,17 +6,21 @@
 
 package com.tim11.pma.ftn.pmaprojekat.model;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
+
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Set;
 
 public class Amenity implements Serializable {
-
+   @DatabaseField(id=true)
    private int id;
-
+   @DatabaseField
    private String name;
-
+   @DatabaseField
    private String description;
-
+   @DatabaseField
    private String icon;
 
    private Set<Hotel> hotels;

@@ -3,6 +3,7 @@ package com.tim11.pma.ftn.pmaprojekat.data.restapi;
 import com.tim11.pma.ftn.pmaprojekat.converter.MyGsonHttpMessageConverter;
 import com.tim11.pma.ftn.pmaprojekat.model.Hotel;
 import com.tim11.pma.ftn.pmaprojekat.model.Reservation;
+import com.tim11.pma.ftn.pmaprojekat.model.Room;
 
 import org.androidannotations.rest.spring.annotations.Body;
 import org.androidannotations.rest.spring.annotations.Get;
@@ -26,6 +27,9 @@ public interface ReservationAPI {
 
     @Get(value = APIConstants.RESERVATION_PATH + "/{fbProfileId}")
     List<Reservation> getReservationsForFbProfile(@Path String fbProfileId);
+
+    @Get(value = APIConstants.RESERVATION_PATH + "/room/{roomId}")
+    Room getRoomById(@Path int roomId);
 
     // ...
 

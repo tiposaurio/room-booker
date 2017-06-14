@@ -1,7 +1,6 @@
 package com.tim11.pma.ftn.pmaprojekat.service;
 
 import com.tim11.pma.ftn.pmaprojekat.data.db.DatabaseHelper;
-import com.tim11.pma.ftn.pmaprojekat.data.db.HotelDAO;
 import com.tim11.pma.ftn.pmaprojekat.data.restapi.HotelAPI;
 import com.tim11.pma.ftn.pmaprojekat.model.Hotel;
 import com.tim11.pma.ftn.pmaprojekat.model.internal.HotelInternalModel;
@@ -25,8 +24,8 @@ public class HotelService implements GenericService<Hotel> {
     @RestService
     HotelAPI hotelAPI;
 
-    @OrmLiteDao(helper = DatabaseHelper.class)
-    HotelDAO hotelDAO;
+    //@OrmLiteDao(helper = DatabaseHelper.class)
+    //HotelDAO hotelDAO;
 
     @Override
     public List<Hotel> get() {
@@ -43,18 +42,18 @@ public class HotelService implements GenericService<Hotel> {
         return hotelAPI.getHotel(id);
     }
 
-    public void saveFavouriteHotel(Hotel hotel){
-        hotelDAO.create(InternalModelConverter.convertToInternalModel(hotel));
-    }
-
-    public List<Hotel> getFavouriteHotels(){
-        List<HotelInternalModel> internalModels = hotelDAO.getFavoriteHotels();
-        List<Hotel> hotels = new ArrayList<>();
-        for(HotelInternalModel hotelInternalModel: internalModels){
-            hotels.add(InternalModelConverter.convertFromInternalModel(hotelInternalModel, this));
-        }
-        return hotels;
-    }
+//    public void saveFavouriteHotel(Hotel hotel){
+//        hotelDAO.create(InternalModelConverter.convertToInternalModel(hotel));
+//    }
+//
+//    public List<Hotel> getFavouriteHotels(){
+//        List<HotelInternalModel> internalModels = hotelDAO.getFavoriteHotels();
+//        List<Hotel> hotels = new ArrayList<>();
+//        for(HotelInternalModel hotelInternalModel: internalModels){
+//            hotels.add(InternalModelConverter.convertFromInternalModel(hotelInternalModel, this));
+//        }
+//        return hotels;
+//    }
 
     public List<Hotel> search(SearchViewModel searchViewModel) {
         return hotelAPI.search(searchViewModel);

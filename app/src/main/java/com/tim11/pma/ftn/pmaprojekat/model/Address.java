@@ -6,23 +6,28 @@
 
 package com.tim11.pma.ftn.pmaprojekat.model;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
 import java.io.Serializable;
 import java.util.Set;
 
 public class Address implements Serializable {
 
+
+   @DatabaseField(generatedId = true,allowGeneratedIdInsert=true)
    private long id;
-
+   @DatabaseField
    private String street;
-
+   @DatabaseField
    private String number;
-
+   @DatabaseField
    private String city;
-
+   @DatabaseField
    private String country;
-
+   @DatabaseField
    private double latitude;
-
+   @DatabaseField
    private double longitude;
 
    private Set<Hotel> hotels;
