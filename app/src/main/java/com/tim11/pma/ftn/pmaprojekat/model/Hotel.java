@@ -6,36 +6,46 @@
 
 package com.tim11.pma.ftn.pmaprojekat.model;
 
+import com.j256.ormlite.dao.EagerForeignCollection;
+import com.j256.ormlite.dao.ForeignCollection;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
+import com.j256.ormlite.table.DatabaseTable;
+
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Set;
 
 public class Hotel implements Serializable {
-
+    @DatabaseField(id=true)
    private int id;
-
+    @DatabaseField
    private String name;
-
+    @DatabaseField
    private String description;
-
+    @DatabaseField
    private String website;
-
+    @DatabaseField
    private String phone;
-
+    @DatabaseField
    private int stars;
-
+    @DatabaseField
    private double rating;
-
+    @DatabaseField
    private int numberOfReviews;
-
+    @DatabaseField
    private String imageFilename;
 
-   private Set<Amenity> amenities;
+    private Set<Amenity> amenities;
 
-   private Set<Review> reviews;
+    private Set<Review> reviews;
 
-   private Set<Room> rooms;
+    @ForeignCollectionField(eager = true)
+    private Collection<Room> rooms;
 
-   private Address address;
+    @DatabaseField(canBeNull = false, foreign = true, foreignAutoCreate=true, foreignAutoRefresh=true)
+    private Address address;
 
    public Hotel() {}
 
@@ -127,11 +137,12 @@ public class Hotel implements Serializable {
 	  this.reviews = reviews;
    }
 
-   public Set<Room> getRooms() {
+   public Collection<Room> getRooms() {
 	  return rooms;
    }
 
-   public void setRooms(Set<Room> rooms) {
+   public void setRooms(Collection<Room> rooms) {
+
 	  this.rooms = rooms;
    }
 

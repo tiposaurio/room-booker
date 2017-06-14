@@ -1,6 +1,7 @@
 package com.tim11.pma.ftn.pmaprojekat.converter;
 
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -9,11 +10,16 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import com.j256.ormlite.dao.BaseForeignCollection;
+import com.j256.ormlite.dao.EagerForeignCollection;
+import com.j256.ormlite.dao.ForeignCollection;
 
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
 
 import java.lang.reflect.Type;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -42,6 +48,7 @@ public class MyGsonHttpMessageConverter extends GsonHttpMessageConverter {
                 return jsonElement;
             }
         });
+
 
         setGson(builder.create());
 

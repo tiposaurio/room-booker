@@ -7,15 +7,17 @@
 package com.tim11.pma.ftn.pmaprojekat.model;
 
 
+import com.j256.ormlite.field.DatabaseField;
+
 import java.io.Serializable;
 import java.util.Set;
 
 public class Bed implements Serializable {
-
+   @DatabaseField(generatedId = true,allowGeneratedIdInsert=true)
    private int id;
-
+   @DatabaseField
    private String name;
-
+   @DatabaseField
    private String icon;
 
    private Set<RoomBed> roomBeds;

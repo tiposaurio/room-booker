@@ -35,6 +35,7 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.tim11.pma.ftn.pmaprojekat.data.db.DatabaseHelper;
+import com.tim11.pma.ftn.pmaprojekat.data.db.FavouritesDAO;
 import com.tim11.pma.ftn.pmaprojekat.listener.RefreshNameDrawerListener;
 import com.tim11.pma.ftn.pmaprojekat.model.Hotel;
 import com.tim11.pma.ftn.pmaprojekat.model.SpringTestModel;
@@ -49,6 +50,7 @@ import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
+import org.androidannotations.ormlite.annotations.OrmLiteDao;
 import org.springframework.web.client.RestClientException;
 
 import java.io.File;
@@ -78,6 +80,9 @@ public class MainActivity extends AppCompatActivity
 
     @Bean
     HotelService hotelService;
+
+    @OrmLiteDao(helper = DatabaseHelper.class)
+    FavouritesDAO favouritesDAO;
 
     private List<Hotel> hotelList;
 
@@ -192,16 +197,14 @@ public class MainActivity extends AppCompatActivity
             return true;
         } else if (id == R.id.menu_action_show_favourites) {
             DatabaseHelper helper = OpenHelperManager.getHelper(getApplicationContext(), DatabaseHelper.class);
-            try {
-                List<HotelInternalModel> hotels = helper.getHotelDao().getFavoriteHotels();
+
+                List<HotelInternalModel> hotels = favouritesDAO.getFavoriteHotels();
                 Integer[] ids = new Integer[hotels.size()];
                 for (int i = 0; i < hotels.size() ; i++) {
                     ids[i] = hotels.get(i).getActualId();
                 }
                 getHotelsAndChangeToHotelList(ids);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+
         } else if (id == R.id.menu_action_show_all) {
             getAllHotelsAndChangeToHotelListFragment();
         } else if (id == R.id.menu_action_refresh) {

@@ -3,47 +3,42 @@ package com.tim11.pma.ftn.pmaprojekat.data.db;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 import com.tim11.pma.ftn.pmaprojekat.model.Hotel;
-import com.tim11.pma.ftn.pmaprojekat.model.internal.HotelInternalModel;
-import com.tim11.pma.ftn.pmaprojekat.model.internal.InternalModelConverter;
+import com.tim11.pma.ftn.pmaprojekat.model.Room;
 
-import java.sql.SQLException;
+import org.androidannotations.ormlite.annotations.OrmLiteDao;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class HotelDAO extends RuntimeExceptionDao<HotelInternalModel, Integer>{
+/**
+ * Created by Jan Sulja on 6/14/2017.
+ */
 
-    public HotelDAO(Dao<HotelInternalModel, Integer> dao) {
+public class HotelDAO extends RuntimeExceptionDao<Hotel, Integer>{
+
+
+
+    public HotelDAO(Dao<Hotel, Integer> dao) {
         super(dao);
     }
 
-    //ima create metod a nmg nadjem neki getAll metod xD
-    public List<HotelInternalModel> getFavoriteHotels() {
+    public List<Hotel> getAll(){
 
-            return queryForAll();
-
-    }
-
-    public void addToFavourites(Hotel hotel){
-
-        this.create(InternalModelConverter.convertToInternalModel(hotel));
+        return queryForAll();
 
     }
 
-    public void removeFromFavourites(Hotel hotel)  {
+    public void saveAll(List<Hotel> hotelList){
 
-
-        try {
-            deleteBuilder().where().eq("actualId",hotel.getId());
-            deleteBuilder().delete();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-
+//        for (Hotel h :hotelList) {
+//
+//            for(Room r : h.getRooms()){
+//
+//                roomDAO.create(r);
+//
+//            }
+//        }
+        this.create(hotelList);
     }
 
-    public HotelInternalModel getByActualId(int actualId) throws SQLException {
-        return queryBuilder().where().eq("actualId",actualId).queryForFirst();
-    }
 }

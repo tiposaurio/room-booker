@@ -21,24 +21,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import com.tim11.pma.ftn.pmaprojekat.data.db.FavouritesDAO;
+import com.tim11.pma.ftn.pmaprojekat.listener.RefreshNameDrawerListener;
+import com.tim11.pma.ftn.pmaprojekat.model.Hotel;
+import com.tim11.pma.ftn.pmaprojekat.model.User;
+import com.tim11.pma.ftn.pmaprojekat.util.PreferenceUtil;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EActivity;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
-
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.tim11.pma.ftn.pmaprojekat.data.db.DatabaseHelper;
 import com.tim11.pma.ftn.pmaprojekat.data.db.HotelDAO;
-import com.tim11.pma.ftn.pmaprojekat.listener.RefreshNameDrawerListener;
 import com.tim11.pma.ftn.pmaprojekat.model.internal.HotelInternalModel;
-import com.tim11.pma.ftn.pmaprojekat.model.Hotel;
-import com.tim11.pma.ftn.pmaprojekat.model.User;
-import com.tim11.pma.ftn.pmaprojekat.util.PreferenceUtil;
-
+import org.androidannotations.ormlite.annotations.OrmLiteDao;
 import layout.HotelDetailsFragment_;
 
 @EActivity
@@ -52,6 +50,8 @@ public class DetailViewActivity extends AppCompatActivity
 
     private boolean isFavourite;
 
+    @OrmLiteDao(helper = DatabaseHelper.class)
+    FavouritesDAO favouritesDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,16 +95,10 @@ public class DetailViewActivity extends AppCompatActivity
 
     private void initializeFavouriteHotelIcon(MenuItem menuItem) {
 
-        DatabaseHelper helper = OpenHelperManager.getHelper(getApplicationContext(),DatabaseHelper.class);
-        HotelDAO hotelDao = null;
-        try {
-            hotelDao = helper.getHotelDao();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
 
         try {
-            HotelInternalModel him = hotelDao.getByActualId(hotel.getId());
+            HotelInternalModel him = favouritesDAO.getByActualId(hotel.getId());
             if(him!=null){
 
                 menuItem.setIcon(getDrawable(R.drawable.ic_favourite_on));
@@ -155,23 +149,18 @@ public class DetailViewActivity extends AppCompatActivity
         if (id == R.id.action_favourites) {
 
             ActionMenuItemView menu = (ActionMenuItemView) findViewById(R.id.action_favourites);
-            DatabaseHelper helper = OpenHelperManager.getHelper(getApplicationContext(), DatabaseHelper.class);
-            HotelDAO hotelDao = null;
-            try {
-                hotelDao = helper.getHotelDao();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            if (hotelDao != null) {
-                if (!isFavourite) {
-                    hotelDao.addToFavourites(hotel);
-                    isFavourite = true;
-                    menu.setIcon(getDrawable(R.drawable.ic_favourite_on));
-                } else {
-                    hotelDao.removeFromFavourites(hotel);
-                    menu.setIcon(getDrawable(R.drawable.ic_favourite_off));
-                    isFavourite = false;
-                }
+
+
+
+            if(!isFavourite){
+                favouritesDAO.addToFavourites(hotel);
+                isFavourite = true;
+                menu.setIcon(getDrawable(R.drawable.ic_favourite_on));
+            }else{
+                favouritesDAO.removeFromFavourites(hotel);
+                menu.setIcon(getDrawable(R.drawable.ic_favourite_off));
+                isFavourite = false;
+
             }
 
             return true;

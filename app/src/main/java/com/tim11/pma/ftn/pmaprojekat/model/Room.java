@@ -6,29 +6,37 @@
 
 package com.tim11.pma.ftn.pmaprojekat.model;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
+import com.j256.ormlite.table.DatabaseTable;
+
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Set;
 
 public class Room implements Serializable {
 
+   @DatabaseField(generatedId = true,allowGeneratedIdInsert=true)
    private int id;
-
+   @DatabaseField
    private String name;
-
+   @DatabaseField
    private int count;
-
+   @DatabaseField
    private int available;
-
+   @DatabaseField
    private String description;
 
    private Set<RoomBed> roomBeds;
 
-   private Set<Amenity> amenities;
 
+   private Set<Amenity> amenities;
    private Set<Reservation> reservations;
 
+   @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true)
    private Hotel hotel;
 
+   @DatabaseField(canBeNull = false, foreign = true, foreignAutoCreate=true, foreignAutoRefresh=true)
    private Price price;
 
    public Room() {}

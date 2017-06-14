@@ -6,16 +6,18 @@
 
 package com.tim11.pma.ftn.pmaprojekat.model;
 
+import com.j256.ormlite.field.DatabaseField;
+
 import java.io.Serializable;
 
 public class RoomBed implements Serializable {
-
+   @DatabaseField(id=true)
    private int id;
-
+   @DatabaseField
    private int count;
-
+   @DatabaseField(canBeNull = false, foreign = true, foreignAutoCreate=true, foreignAutoRefresh=true, columnName = "room_id")
    private Room room;
-
+   @DatabaseField(canBeNull = false, foreign = true, foreignAutoCreate=true, foreignAutoRefresh=true)
    private Bed bed;
 
    public RoomBed() {}
