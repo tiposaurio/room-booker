@@ -17,8 +17,26 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+import com.tim11.pma.ftn.pmaprojekat.DetailViewActivity;
+import com.tim11.pma.ftn.pmaprojekat.DetailViewActivity_;
 import com.tim11.pma.ftn.pmaprojekat.MainActivity;
 import com.tim11.pma.ftn.pmaprojekat.R;
+import com.tim11.pma.ftn.pmaprojekat.model.Hotel;
+import com.tim11.pma.ftn.pmaprojekat.service.internal.HotelInternalService;
+
+import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.EBean;
+
+import java.lang.reflect.Type;
+import java.util.Date;
+import java.util.Map;
+
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "MyFirebaseMsgService";
@@ -28,6 +46,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      * @param remoteMessage Object representing the message received from Firebase Cloud Messaging.
      */
     // [START receive_message]
+
+
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         // [START_EXCLUDE]
@@ -49,7 +69,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
-            sendNotification(remoteMessage.getNotification());
+            sendNotification(remoteMessage.getNotification(),remoteMessage.getData());
         }
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
@@ -59,9 +79,21 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      * Create and show a simple notification containing the received FCM message.
      *
      * @param notification FCM message received.
+     * @param data
      */
-    private void sendNotification(RemoteMessage.Notification notification) {
-        Intent intent = new Intent(this, MainActivity.class);//**The activity that you want to open when the notification is clicked
+    private void sendNotification(RemoteMessage.Notification notification, Map<String, String> data) {
+        Intent intent = null;
+        Log.i("TAGGG",notification.getTag());
+        if(notification.getTag().equals("new_room")){
+            intent = new Intent(this, DetailViewActivity_.class);
+            String hotel_id = data.get("hotel_id");
+            intent.putExtra("hotel_id", Integer.parseInt(hotel_id));
+            intent.putExtra("sync",true);
+        }else{
+            intent = new Intent(this, MainActivity.class);//**The activity that you want to open when the notification is clicked
+
+        }
+
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);

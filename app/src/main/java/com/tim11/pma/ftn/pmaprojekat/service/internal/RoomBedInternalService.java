@@ -50,6 +50,16 @@ public class RoomBedInternalService implements GenericInternalService<RoomBed> {
         roomBedDAO.createAll(set);
     }
 
+    public void updateAll(Set<RoomBed> set) {
+
+        for (RoomBed rb :set) {
+
+            bedDAO.createOrUpdate(rb.getBed());
+
+        }
+        roomBedDAO.updateAll(set);
+    }
+
     @Override
     public RoomBed getById(int id) {
         return null;

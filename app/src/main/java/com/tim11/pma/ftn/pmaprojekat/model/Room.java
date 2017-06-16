@@ -36,7 +36,7 @@ public class Room implements Serializable {
    @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true)
    private Hotel hotel;
 
-   @DatabaseField(canBeNull = false, foreign = true, foreignAutoCreate=true, foreignAutoRefresh=true)
+   @DatabaseField(foreign = true, foreignAutoCreate=true, foreignAutoRefresh=true)
    private Price price;
 
    public Room() {}

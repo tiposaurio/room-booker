@@ -82,6 +82,32 @@ public class RoomInternalService implements GenericInternalService<Room> {
 
     }
 
+    public void updateAll(List<Room> list) {
+
+        for (Room r : list) {
+
+            for (Amenity a :r.getAmenities()) {
+
+                amenityInternalService.createOrUpdate(a);
+                RoomAmenity ra = new RoomAmenity();
+                ra.setRoomId(r.getId());
+                ra.setAmenityId(a.getId());
+                roomAmenityInternalService.create(ra);
+            }
+
+            for(RoomBed rb :r.getRoomBeds()){
+                rb.setRoom(r);
+            }
+
+            roomBedInternalService.updateAll(r.getRoomBeds());
+            priceDAO.createOrUpdate(r.getPrice());
+            roomDAO.createOrUpdate(r);
+
+        }
+
+
+    }
+
     @Override
     public Room getById(int id) {
         return null;

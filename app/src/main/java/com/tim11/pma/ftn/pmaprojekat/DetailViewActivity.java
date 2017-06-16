@@ -21,12 +21,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.tim11.pma.ftn.pmaprojekat.data.db.FavouritesDAO;
 import com.tim11.pma.ftn.pmaprojekat.listener.RefreshNameDrawerListener;
 import com.tim11.pma.ftn.pmaprojekat.model.Hotel;
 import com.tim11.pma.ftn.pmaprojekat.model.User;
+import com.tim11.pma.ftn.pmaprojekat.service.SyncService;
+import com.tim11.pma.ftn.pmaprojekat.service.internal.HotelInternalService;
 import com.tim11.pma.ftn.pmaprojekat.util.PreferenceUtil;
 import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import java.io.File;
 import java.io.FileInputStream;
@@ -36,6 +41,8 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.tim11.pma.ftn.pmaprojekat.data.db.DatabaseHelper;
 import com.tim11.pma.ftn.pmaprojekat.data.db.HotelDAO;
 import com.tim11.pma.ftn.pmaprojekat.model.internal.HotelInternalModel;
+
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.ormlite.annotations.OrmLiteDao;
 import layout.HotelDetailsFragment_;
 
@@ -46,6 +53,7 @@ public class DetailViewActivity extends AppCompatActivity
 
     public static enum ActiveFragment { HOTEL_LIST, FILTER, SETTINGS, RESERVATIONS, LOGOUT}
 
+
     private Hotel hotel;
 
     private boolean isFavourite;
@@ -53,21 +61,58 @@ public class DetailViewActivity extends AppCompatActivity
     @OrmLiteDao(helper = DatabaseHelper.class)
     FavouritesDAO favouritesDAO;
 
+    @Bean
+    SyncService syncService;
+
+    @Bean
+    HotelInternalService hotelInternalService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_view);
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        View headerLayout = navigationView.getHeaderView(0);
+
+        ImageView profilePictureView = (ImageView)headerLayout.findViewById(R.id.navViewImageView);
+        TextView nameTextView = (TextView) headerLayout.findViewById(R.id.navViewFullName);
+        TextView emailTextView = (TextView) headerLayout.findViewById(R.id.navViewEmail);
+        fillNavigationViewData(profilePictureView, nameTextView, emailTextView);
+
+        boolean toSync = getIntent().getBooleanExtra("sync",false);
+        if(toSync){
+            syncData();
+        }else{
+            updateView();
+        }
+
+
+    }
+    @Background
+    public void syncData() {
+        syncService.sync();
+
+        updateView();
+
+    }
+    @UiThread
+    public void updateView() {
+
+        hotel = (Hotel) getIntent().getSerializableExtra("hotel");
+        if(hotel == null){
+            int hotelId = getIntent().getIntExtra("hotel_id",-1);
+            if(hotelId != -1){
+                hotel = hotelInternalService.getById(hotelId);
+            }
+
+        }
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.addDrawerListener(new RefreshNameDrawerListener());
@@ -77,20 +122,8 @@ public class DetailViewActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        hotel = (Hotel) getIntent().getSerializableExtra("hotel");
-
-
-        View headerLayout = navigationView.getHeaderView(0);
-        ImageView profilePictureView = (ImageView)headerLayout.findViewById(R.id.navViewImageView);
-        TextView nameTextView = (TextView) headerLayout.findViewById(R.id.navViewFullName);
-        TextView emailTextView = (TextView) headerLayout.findViewById(R.id.navViewEmail);
-        fillNavigationViewData(profilePictureView, nameTextView, emailTextView);
-
-
         initializeFragment();
+
     }
 
     private void initializeFavouriteHotelIcon(MenuItem menuItem) {

@@ -31,7 +31,7 @@ import java.sql.SQLException;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME = "pma.db";
-    private static final int DATABASE_VERSION = 46; // TODO - when you change entities - change version
+    private static final int DATABASE_VERSION = 54; // TODO - when you change entities - change version
 
     private FavouritesDAO mFavouritesDao = null;
 
@@ -76,6 +76,24 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             //...
 
             onCreate(database, connectionSource);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void clearData(){
+        ConnectionSource connectionSource = getConnectionSource();
+
+        try {
+            TableUtils.clearTable(getConnectionSource(), HotelInternalModel.class);
+            TableUtils.clearTable(connectionSource, Hotel.class);
+            TableUtils.clearTable(connectionSource, Address.class);
+            TableUtils.clearTable(connectionSource, Amenity.class);
+            TableUtils.clearTable(connectionSource, RoomAmenity.class);
+            TableUtils.clearTable(connectionSource, Bed.class);
+            TableUtils.clearTable(connectionSource, Price.class);
+            TableUtils.clearTable(connectionSource, Room.class);
+            TableUtils.clearTable(connectionSource, RoomBed.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }

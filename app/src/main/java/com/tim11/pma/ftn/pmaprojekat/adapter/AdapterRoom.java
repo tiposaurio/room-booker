@@ -85,24 +85,31 @@ public class AdapterRoom extends ArrayAdapter<Room> {
         if (room!= null) {
 
             viewHolder.tvName.setText(room.getName());
-            viewHolder.tvPrice.setText(String.valueOf(room.getPrice().getValue()) + " €");
+            if(room.getPrice()!=null) viewHolder.tvPrice.setText(String.valueOf(room.getPrice().getValue()) + " €");
             viewHolder.tvDescription.setText(room.getDescription());
             String amenities = "";
-            for (Amenity a : room.getAmenities()) {
-                if(!amenities.isEmpty()){
-                    amenities+="\n";
-                }
-                amenities += a.getName();
 
+            if(room.getAmenities()!=null){
+                for (Amenity a : room.getAmenities()) {
+                    if(!amenities.isEmpty()){
+                        amenities+="\n";
+                    }
+                    amenities += a.getName();
+
+                }
             }
+
 
             String beds = "";
-            for (RoomBed b : room.getRoomBeds()) {
-                if(!beds.isEmpty()){
-                    beds+="\n";
+            if(room.getRoomBeds()!=null){
+                for (RoomBed b : room.getRoomBeds()) {
+                    if(!beds.isEmpty()){
+                        beds+="\n";
+                    }
+                    beds += b.getCount() + " x " + b.getBed().getName();
                 }
-                beds += b.getCount() + " x " + b.getBed().getName();
             }
+
 
             viewHolder.tvAmenities.setText(amenities);
             viewHolder.tvBeds.setText(beds);

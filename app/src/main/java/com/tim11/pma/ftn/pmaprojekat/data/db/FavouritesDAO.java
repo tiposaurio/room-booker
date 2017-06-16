@@ -1,5 +1,6 @@
 package com.tim11.pma.ftn.pmaprojekat.data.db;
 
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 import com.tim11.pma.ftn.pmaprojekat.model.Hotel;
@@ -24,7 +25,7 @@ public class FavouritesDAO extends RuntimeExceptionDao<HotelInternalModel, Integ
     }
 
     public void addToFavourites(Hotel hotel){
-
+        FirebaseMessaging.getInstance().subscribeToTopic("hotel_"+String.valueOf(hotel.getId()));
         this.create(InternalModelConverter.convertToInternalModel(hotel));
 
     }
@@ -35,6 +36,7 @@ public class FavouritesDAO extends RuntimeExceptionDao<HotelInternalModel, Integ
         try {
             deleteBuilder().where().eq("actualId",hotel.getId());
             deleteBuilder().delete();
+            FirebaseMessaging.getInstance().unsubscribeFromTopic("hotel_"+String.valueOf(hotel.getId()));
 
         } catch (SQLException e) {
             e.printStackTrace();

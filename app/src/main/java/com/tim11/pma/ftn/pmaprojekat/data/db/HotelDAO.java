@@ -2,6 +2,7 @@ package com.tim11.pma.ftn.pmaprojekat.data.db;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
+import com.tim11.pma.ftn.pmaprojekat.model.Address;
 import com.tim11.pma.ftn.pmaprojekat.model.Hotel;
 import com.tim11.pma.ftn.pmaprojekat.model.Room;
 
@@ -39,6 +40,14 @@ public class HotelDAO extends RuntimeExceptionDao<Hotel, Integer>{
 //            }
 //        }
         this.create(hotelList);
+    }
+
+    public void updateAll(List<Hotel> hotelList){
+        for (Hotel h :hotelList) {
+
+            this.createOrUpdate(h);
+        }
+
     }
 
 }

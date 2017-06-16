@@ -24,6 +24,16 @@ public class RoomBedDAO extends RuntimeExceptionDao<RoomBed,Integer> {
 
     }
 
+    public void updateAll(Set<RoomBed> roomBedSet){
+
+        for (RoomBed rb :roomBedSet) {
+            this.createOrUpdate(rb);
+        }
+
+
+
+    }
+
     public Set<RoomBed> getByRoomId(int id) {
         return new HashSet<>(this.queryForEq("room_id",id));
     }
