@@ -25,6 +25,7 @@ import com.tim11.pma.ftn.pmaprojekat.widget.MyNumberPicker;
 
 import org.springframework.web.client.RestClientException;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -79,7 +80,8 @@ public class AdapterReservation extends ArrayAdapter<Reservation> {
         if (reservation!= null) {
 
             viewHolder.tvName.setText(reservation.getRoom().getName());
-            viewHolder.tvPrice.setText(String.valueOf(reservation.getPrice()) + " €");
+            DecimalFormat df = new DecimalFormat("#.00");
+            viewHolder.tvPrice.setText(df.format(reservation.getPrice()) + " €");
             viewHolder.tvDescription.setText(reservation.getRoom().getDescription());
             String amenities = "";
             for (Amenity a : reservation.getRoom().getAmenities()) {

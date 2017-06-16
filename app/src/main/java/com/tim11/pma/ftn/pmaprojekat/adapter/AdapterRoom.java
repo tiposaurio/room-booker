@@ -28,6 +28,7 @@ import com.tim11.pma.ftn.pmaprojekat.service.ReservationService_;
 
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EBean;
+import org.androidannotations.annotations.UiThread;
 import org.springframework.web.client.RestClientException;
 
 import java.util.ArrayList;
@@ -159,11 +160,14 @@ public class AdapterRoom extends ArrayAdapter<Room> {
                         Date endTime = getDateFromDatePicker(dialogView,R.id.dpEndDate);
                         reservation.setEndDate(endTime);
 
-                        reservation.setPrice(calculatePrice(startTime,endTime, price));
-                        book(reservation);
+                        if(endTime.after(startTime)){
+                            reservation.setPrice(calculatePrice(startTime,endTime, price));
+                            book(reservation);
+                        }else{
 
-                        showToastMessage("Booking complete",getContext(),Toast.LENGTH_LONG);
-
+                            dialog.dismiss();
+                            showToastMessage("Please select valid period",getContext(),Toast.LENGTH_LONG);
+                        }
                     }
                 })
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -173,8 +177,8 @@ public class AdapterRoom extends ArrayAdapter<Room> {
                 })
                 .show();
     }
-
-    private void showToastMessage(String text, Context context, int duration) {
+    @UiThread
+    public void showToastMessage(String text, Context context, int duration) {
         Toast toast = Toast.makeText(getContext(), text, duration);
         toast.show();
     }
@@ -217,11 +221,19 @@ public class AdapterRoom extends ArrayAdapter<Room> {
 
     @Background
     public void book(Reservation reservation){
+        Reservation savedReservation = null;
         try{
-            reservationService.create(reservation);
+            savedReservation =  reservationService.create(reservation);
         }catch(RestClientException e){
             Log.e("REST ERROR","Booking error");
         }
+
+        if(savedReservation==null){
+            showToastMessage("Room not available",getContext(),Toast.LENGTH_LONG);
+        }else{
+            showToastMessage("Booking complete",getContext(),Toast.LENGTH_LONG);
+        }
+
 
     }
 }
