@@ -3,6 +3,7 @@ package com.tim11.pma.ftn.pmaprojekat;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
@@ -67,6 +68,8 @@ public class DetailViewActivity extends AppCompatActivity
     @Bean
     HotelInternalService hotelInternalService;
 
+    private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +87,8 @@ public class DetailViewActivity extends AppCompatActivity
 
         boolean toSync = getIntent().getBooleanExtra("sync",false);
         if(toSync){
+            progressDialog = ProgressDialog.show(this, "Working..", "Loading new data..", true,
+                    false);
             syncData();
         }else{
             updateView();
@@ -94,7 +99,7 @@ public class DetailViewActivity extends AppCompatActivity
     @Background
     public void syncData() {
         syncService.sync();
-
+        progressDialog.dismiss();
         updateView();
 
     }

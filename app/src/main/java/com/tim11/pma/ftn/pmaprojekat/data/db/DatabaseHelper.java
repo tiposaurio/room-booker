@@ -85,7 +85,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         ConnectionSource connectionSource = getConnectionSource();
 
         try {
-            TableUtils.clearTable(getConnectionSource(), HotelInternalModel.class);
             TableUtils.clearTable(connectionSource, Hotel.class);
             TableUtils.clearTable(connectionSource, Address.class);
             TableUtils.clearTable(connectionSource, Amenity.class);

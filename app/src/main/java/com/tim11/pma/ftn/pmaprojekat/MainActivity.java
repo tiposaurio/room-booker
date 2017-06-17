@@ -5,6 +5,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
@@ -18,13 +19,16 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +47,8 @@ import com.tim11.pma.ftn.pmaprojekat.model.User;
 import com.tim11.pma.ftn.pmaprojekat.model.internal.HotelInternalModel;
 import com.tim11.pma.ftn.pmaprojekat.service.HotelService;
 import com.tim11.pma.ftn.pmaprojekat.service.SpringTestModelService;
+import com.tim11.pma.ftn.pmaprojekat.service.SyncService;
+import com.tim11.pma.ftn.pmaprojekat.service.internal.HotelInternalService;
 import com.tim11.pma.ftn.pmaprojekat.util.PreferenceUtil;
 
 import org.androidannotations.annotations.AfterViews;
@@ -50,6 +56,7 @@ import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
+import org.androidannotations.annotations.ViewById;
 import org.androidannotations.ormlite.annotations.OrmLiteDao;
 import org.springframework.web.client.RestClientException;
 
@@ -57,6 +64,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -81,10 +89,21 @@ public class MainActivity extends AppCompatActivity
     @Bean
     HotelService hotelService;
 
+    @Bean
+    HotelInternalService hotelInternalService;
+
+    @Bean
+    SyncService syncService;
+
     @OrmLiteDao(helper = DatabaseHelper.class)
     FavouritesDAO favouritesDAO;
 
+    private ProgressDialog progressDialog;
+
     private List<Hotel> hotelList;
+//    private ImageView profilePictureView;
+//    private TextView emailTextView;
+//    private TextView nameTextView;
 
     public List<Hotel> getHotelList() {
         return hotelList;
@@ -94,6 +113,12 @@ public class MainActivity extends AppCompatActivity
         this.hotelList = hotelList;
     }
 
+    @ViewById
+    TextView navViewFullName;
+
+    @ViewById
+    TextView navViewEmail;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,6 +127,8 @@ public class MainActivity extends AppCompatActivity
         checkIfLoggedIn();
 
         FirebaseMessaging.getInstance().subscribeToTopic("main");
+
+        //initFirebaseTopics();
 
         setContentView(R.layout.activity_main);
 
@@ -128,6 +155,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         final View headerLayout = navigationView.getHeaderView(0);
+        //View headerLayout = LayoutInflater.from(getApplicationContext()).inflate(R.layout.nav_header_main, navigationView, false);
         ImageView profilePictureView = (ImageView)headerLayout.findViewById(R.id.navViewImageView);
         TextView nameTextView = (TextView) headerLayout.findViewById(R.id.navViewFullName);
         TextView emailTextView = (TextView) headerLayout.findViewById(R.id.navViewEmail);
@@ -136,6 +164,30 @@ public class MainActivity extends AppCompatActivity
         if(currentFragment==null){
             initializeFragment();
         }
+
+    }
+
+    private void initFirebaseTopics() {
+        List<Hotel> hotels = hotelInternalService.getAll();
+        if(hotels!=null){
+
+            for(Hotel h: hotels){
+                HotelInternalModel him = null;
+                try {
+                    him = favouritesDAO.getByActualId(h.getId());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                if(him==null){
+                    FirebaseMessaging.getInstance().unsubscribeFromTopic("hotel_"+String.valueOf(h.getId()));
+                }else{
+                    FirebaseMessaging.getInstance().subscribeToTopic("hotel_"+String.valueOf(h.getId()));
+                }
+
+            }
+
+        }
+
 
     }
 
@@ -199,16 +251,24 @@ public class MainActivity extends AppCompatActivity
             DatabaseHelper helper = OpenHelperManager.getHelper(getApplicationContext(), DatabaseHelper.class);
 
                 List<HotelInternalModel> hotels = favouritesDAO.getFavoriteHotels();
-                Integer[] ids = new Integer[hotels.size()];
-                for (int i = 0; i < hotels.size() ; i++) {
-                    ids[i] = hotels.get(i).getActualId();
+                List<Hotel> favouriteHotels = new ArrayList<>();
+                for(HotelInternalModel him: hotels){
+                    favouriteHotels.add(hotelInternalService.getById(him.getActualId()));
                 }
-                getHotelsAndChangeToHotelList(ids);
+                hotelList = favouriteHotels;
+                changeFragment(HotelListFragment_.builder().build());
+//                Integer[] ids = new Integer[hotels.size()];
+//                for (int i = 0; i < hotels.size() ; i++) {
+//                    ids[i] = hotels.get(i).getActualId();
+//                }
+//                getHotelsAndChangeToHotelList(ids);
 
         } else if (id == R.id.menu_action_show_all) {
-            getAllHotelsAndChangeToHotelListFragment();
+            //getAllHotelsAndChangeToHotelListFragment();
+            hotelList = hotelInternalService.getAll();
+            changeFragment(HotelListFragment_.builder().build());
         } else if (id == R.id.menu_action_refresh) {
-            if (hotelList != null && hotelList.size() > 0) {
+            /*if (hotelList != null && hotelList.size() > 0) {
                 Integer[] ids = new Integer[hotelList.size()];
                 for (int i = 0; i < hotelList.size() ; i++) {
                     ids[i] = hotelList.get(i).getId();
@@ -216,13 +276,27 @@ public class MainActivity extends AppCompatActivity
                 getHotelsAndChangeToHotelList(ids);
             } else {
                 getAllHotelsAndChangeToHotelListFragment();
-            }
+            }*/
+            progressDialog = ProgressDialog.show(this, "Working..", "Synchronizing data", true,
+                    false);
+            syncData();
+
         } else if (id == R.id.menu_action_search) {
             changeFragment(FilterFragment_.builder().build());
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Background
+    public void syncData(){
+
+        syncService.sync();
+        hotelList = hotelInternalService.getAll();
+        changeFragment(HotelListFragment_.builder().build());
+        progressDialog.dismiss();
+    }
+
 
     @Background
     public void getHotelsAndChangeToHotelList(Integer[] hotelIds) {
@@ -359,7 +433,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Background
-    @TargetApi(23)
+    //@TargetApi(23)
     void fillNavigationViewData(final ImageView profilePictureView,
                                 final TextView nameTextView,
                                 final TextView emailTextView) {
@@ -379,6 +453,8 @@ public class MainActivity extends AppCompatActivity
                     }
                 }
             });
+
+
         }
         catch (FileNotFoundException e)
         {
@@ -410,6 +486,8 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
     }
+
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode,

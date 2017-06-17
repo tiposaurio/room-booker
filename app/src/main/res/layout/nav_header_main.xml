@@ -12,25 +12,40 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <ImageView
-        android:id="@+id/navViewImageView"
-        android:layout_width="47dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        app:srcCompat="@drawable/ic_hotel_black" />
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/navViewFullName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="T11"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        <ImageView
+            android:id="@+id/navViewImageView"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:paddingTop="@dimen/nav_header_vertical_spacing"
+            app:srcCompat="@drawable/ic_hotel_black" />
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/navViewEmail"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="tim11@android.com" />
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/navViewFullName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingTop="@dimen/nav_header_vertical_spacing"
+            android:text="T11"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+        <TextView
+            android:id="@+id/navViewEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="tim11@android.com" />
+    </LinearLayout>
 
 </LinearLayout>
