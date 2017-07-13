@@ -1,8 +1,5 @@
 # Mobile application development
 
-Faculty of Technical Sciences, Novi Sad, 2017
-
-
-Jan Sulja
-Branislav Cogic
-Radomir Marinkovic
+- Faculty of Technical Sciences, Novi Sad, 2017
+- OrmLite, Android Annotations, Facebook login
+- Team: Jan Sulja, Branislav Cogic, Radomir Marinkovic
